@@ -1,13 +1,13 @@
 {
-  "name": "node-skeleton",
+  "name": "skeleton",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Project Setup",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "local": "./node_modules/.bin/nodemon --ignore public/",
-    "knex": "./node_modules/.bin/knex"
+    "local": "nodemon --ignore public/",
+    "knex": "knex"
   },
   "author": "Lighthouse Labs",
   "license": "ISC",
@@ -16,7 +16,7 @@
     "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
-    "knex": "^0.11.7",
+    "knex": "^0.11.10",
     "knex-logger": "^0.1.0",
     "morgan": "^1.7.0",
     "node-sass-middleware": "^0.9.8",
@@ -25,5 +25,16 @@
   "devDependencies": {
     "nodemon": "^1.9.2",
     "sqlite3": "^3.1.4"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matt-Greff/midterm-lighthouse.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Matt-Greff/midterm-lighthouse/issues"
+  },
+  "homepage": "https://github.com/Matt-Greff/midterm-lighthouse#readme"
 }
