@@ -1,4 +1,5 @@
 body {
+  margin: auto;
   background-color: #EEE;
 
   nav {
@@ -8,5 +9,12 @@ body {
   h1 {
     text-align: center;
     color: tomato;
+  }
+  div{
+    width: fit-content;
+    margin: auto;
+    div {
+      background: aquamarine
+    }
   }
 }
