@@ -5,10 +5,13 @@ const router  = express.Router();
 
 module.exports = (knex) => {
 
-  router.get("/", (req, res) => {
+  router.get(`/:search`, (req, res) => {
+    const query = (req.params.search)//.replace(/(\d*)([^\w]*)/, ' ')
     knex
       .select("*")
       .from("urls")
+      .where('description', 'like', `%${query}%`)
+      .orWhere('title', 'like', `%${query}%`)
       .then((results) => {
         res.json(results);
     });
@@ -16,7 +19,3 @@ module.exports = (knex) => {
 
   return router;
 }
-/*
-knex.select('*').from('users').join('contacts', function() {
-    this.on('users.id', '=', 'contacts.id').onIn('contacts.id', [7, 15, 23, 41])
-  })*/
