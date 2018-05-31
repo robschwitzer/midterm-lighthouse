@@ -1,0 +1,19 @@
+///////ROUTES/////
+
+get/                           //home page
+   post/login                  //login
+   post/register               //register account
+   delete/logout               //logout/clear seesion
+   put/user/:id                //edit profile
+   get/user/:id                //my collection
+   get/search                  //search results
+   post/url/:id                //add resource
+   post/url/:id/like/:id       //update like count
+   post/url/:id/rank/:id       //update rank count
+   post/url/:id/comments/:id   //add comment
+   get/:topic                  //search topics without input string
+   get/:topic/search           //search topics by input string
+
+-- SELECT url FROM urls
+
+-- SELECT comments FROM interactions JOIN urls ON urls.id=url_id JOIN users ON commenter_id=users.id //comments for users
