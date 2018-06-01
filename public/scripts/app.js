@@ -7,6 +7,7 @@ $(() => {
       topic: $('#search .searchTopic').val()
     };
     getDocs(getComments, search);
+    
   })
 });
 
@@ -17,7 +18,7 @@ const getComments = (doc_id, $doc_div) => {
   }).done((comments) => {
     comments.forEach((packet) => {
       if(doc_id === packet.url_id) {
-        $comment = $("<div>")
+        const $comment = $("<div>")
         .text(packet.comment)
         .appendTo($doc_div)
         .addClass('comment');
@@ -25,6 +26,9 @@ const getComments = (doc_id, $doc_div) => {
     });
   });
 }
+
+
+
 
 const getDocs = (cb, search) => {
   $('.resource').remove();
@@ -42,6 +46,12 @@ const getDocs = (cb, search) => {
       
         cb(doc.id, $resource);
       $resource.appendTo('.container');
+
+      
+    });
+    $('.viewComment').on('click', function (event){
+      event.preventDefault()
+      $(this).parents('.resource').children('.comment').slideToggle();
     });
   });;
 }
@@ -54,7 +64,7 @@ const $createHeader = (title) => {
 }
 const $createFooter = () => {
   const $arrow = $('<img>').attr('src', './images/arrow-up.svg').addClass('arrow'),
-  $comment = $('<img>').attr('src', './images/plus.svg').addClass('comment'),
+  $comment = $('<img>').attr('src', './images/plus.svg').addClass('viewComment'),
   $heart = $('<img>').attr('src', './images/heart.svg').addClass('heart')
   return $('<footer>').append($arrow, $comment, $heart);
 }
