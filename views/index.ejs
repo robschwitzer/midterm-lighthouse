@@ -13,6 +13,13 @@
   <body>
     <nav><h1>Resource Wall</h1></nav>
     <form id='search' action='/api/urls/'>
+      <select class="topic" name="topic">
+        <option value="alldocs">all docs</option>
+        <option value="ajax">ajax</option>
+        <option value="node.js">node.js</option>
+        <option value="ruby">ruby</option>
+        <option value="html">html</option>
+      </select>
       <input type="search" name="search_query">
       <input type="submit" value="Find Docs">
     </form>

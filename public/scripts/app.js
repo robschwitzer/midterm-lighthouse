@@ -2,33 +2,14 @@ $(() => {
   getDocs(getComments);
   $('#search').on('submit', function (event) {
     event.preventDefault();
-    const search_query = $('#search input').val()
-    
-    getDocs(getComments, search_query);
+    const search = { 
+      query: $('#search input').val(),
+      topic: $('#search .topic').val()
+    };
+    getDocs(getComments, search);
   })
 });
 
-/* 
-const searchtDocs = (cb) => {
-  $.ajax({
-    method: "GET",
-    url: "/api/"
-  }).done((docs) => {
-    console.log(docs)
-    docs.forEach((doc) => {
-      
-      const $title = $("<h1>").text(doc.title),
-      $description = $("<p>").text(doc.$description),
-      $url = $("<a>").text(doc.url).attr('href', doc.url),
-      $doc = $('<div>').append($title, $description, $url).addClass('resource');
-      
-      cb(doc.id, $doc);
-
-      $doc.appendTo('body');
-    });
-  });;
-}
- */
 const getComments = (doc_id, $doc_div) => {
   $.ajax({
     method: "GET",
@@ -45,21 +26,21 @@ const getComments = (doc_id, $doc_div) => {
   });
 }
 
-const getDocs = (cb, search_query) => {
-  const route = search_query ? `/api/docs/search/${search_query}` : `/api/docs`
+const getDocs = (cb, search) => {
   $('.main').empty();
+  const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`
+
   $.ajax({
     method: "GET",
     url: route
   }).done((docs) => {
     docs.forEach((doc) => {
-      
       const $title = $("<h1>").text(doc.title),
         $description = $("<p>").text(doc.description),
         $url = $("<a>").text(doc.url).attr('href', doc.url),
         $doc = $('<div>').append($title, $description, $url).addClass('resource');
       
-      cb(doc.id, $doc);
+        cb(doc.id, $doc);
       $doc.appendTo('.main');
     });
   });;
