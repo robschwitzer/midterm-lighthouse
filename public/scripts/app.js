@@ -36,8 +36,15 @@ const getDocs = (cb, search) => {
   }).done((docs) => {
     docs.forEach((doc) => {
       const $title = $("<h1>").text(doc.title),
-        $description = $("<p>").text(doc.description),
+        $topic = $("<h3>").text(),
+        $header = $("<header>").append($title, $topic),
+        $description = $("<p>").addClass('desc').text(doc.description),
         $url = $("<a>").text(doc.url).attr('href', doc.url),
+        $urlContainer = $('<p>').append('$url'),
+        $arrow = $('<img>').attr('src', '../images/arrow-up.svg').addClass('arrow'),
+        $comment = $('<img>').attr('src', '../images/plus.svg').addClass('comment'),
+        $heart = $('<img>').attr('src', '../images/heart.svg').addClass('heart'),
+        $footer = $('<footer>'),
         $doc = $('<div>').append($title, $description, $url).addClass('resource');
       
         cb(doc.id, $doc);
