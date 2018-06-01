@@ -4,7 +4,7 @@ $(() => {
     event.preventDefault();
     const search = { 
       query: $('#search input').val(),
-      topic: $('#search .topic').val()
+      topic: $('#search .searchTopic').val()
     };
     getDocs(getComments, search);
   })
@@ -27,7 +27,7 @@ const getComments = (doc_id, $doc_div) => {
 }
 
 const getDocs = (cb, search) => {
-  $('.main').empty();
+  $('.resource').remove();
   const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`
 
   $.ajax({
@@ -41,7 +41,7 @@ const getDocs = (cb, search) => {
       const $resource = $('<div>').append($createHeader(doc.title), $description, $urlContainer, $createFooter()).addClass('resource');
       
         cb(doc.id, $resource);
-      $resource.appendTo('.main');
+      $resource.appendTo('.container');
     });
   });;
 }
@@ -53,8 +53,8 @@ const $createHeader = (title) => {
   return $("<header>").append($title, $topic);
 }
 const $createFooter = () => {
-  const $arrow = $('<img>').attr('src', '../images/arrow-up.svg').addClass('arrow'),
-  $comment = $('<img>').attr('src', '../images/plus.svg').addClass('comment'),
-  $heart = $('<img>').attr('src', '../images/heart.svg').addClass('heart')
+  const $arrow = $('<img>').attr('src', './images/arrow-up.svg').addClass('arrow'),
+  $comment = $('<img>').attr('src', './images/plus.svg').addClass('comment'),
+  $heart = $('<img>').attr('src', './images/heart.svg').addClass('heart')
   return $('<footer>').append($arrow, $comment, $heart);
 }
