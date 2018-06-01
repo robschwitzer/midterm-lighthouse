@@ -15,11 +15,13 @@ module.exports = (knex) => {
         knex
         .select("*")
         .from("urls")
-        .leftJoin('tagged_topics', 'urls.id', `url_id`)
-        .leftJoin('topics', 'topics.id', 'topic_id')
+        .join('tagged_topics', 'urls.id', `url_id`)
+        .join('topics', 'topics.id', 'topic_id')
         .where('topics.topic','=', `${topic}`)
-        .where('description', 'like', `%${query}%`)
-        .orWhere('title', 'like', `%${query}%`)
+        .andWhere(function() {  
+          this.where('description', 'like', `%${query}%`)
+              .orWhere('title', 'like', `%${query}%`)
+        })
         .then((results) => {
           res.json(results);
         });
