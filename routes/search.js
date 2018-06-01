@@ -18,7 +18,7 @@ module.exports = (knex) => {
         .join('tagged_topics', 'urls.id', `url_id`)
         .join('topics', 'topics.id', 'topic_id')
         .where('topics.topic','=', `${topic}`)
-        .andWhere(function() {  
+        .andWhere(function() {
           this.where('description', 'like', `%${query}%`)
               .orWhere('title', 'like', `%${query}%`)
         })
@@ -36,10 +36,9 @@ module.exports = (knex) => {
         });
       }
   });
-
   return router;
 }
 /*
-select * from urls 
+select * from urls
 join tagged_topics on tagged_topics.url_id = urls.id join topics on topic_id = topics.id where topics.topic = '${var}';
 */
