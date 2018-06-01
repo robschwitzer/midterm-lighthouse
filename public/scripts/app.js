@@ -35,24 +35,26 @@ const getDocs = (cb, search) => {
     url: route
   }).done((docs) => {
     docs.forEach((doc) => {
-      const $title = $("<h1>").text(doc.title),
-        $topic = $("<h3>").text(),
-        $header = $("<header>").append($title, $topic);
-
       const $description = $("<p>").addClass('desc').text(doc.description);
-        
       const $url = $("<a>").text(doc.url).attr('href', doc.url),
         $urlContainer = $('<p>').append($url);
-
-      const $arrow = $('<img>').attr('src', '../images/arrow-up.svg').addClass('arrow'),
-        $comment = $('<img>').attr('src', '../images/plus.svg').addClass('comment'),
-        $heart = $('<img>').attr('src', '../images/heart.svg').addClass('heart'),
-        $footer = $('<footer>').append($arrow, $comment, $heart);
-
-      const $resource = $('<div>').append($header, $description, $urlContainer, $footer).addClass('resource');
+      const $resource = $('<div>').append($createHeader(doc.title), $description, $urlContainer, $createFooter()).addClass('resource');
       
         cb(doc.id, $resource);
       $resource.appendTo('.main');
     });
   });;
+}
+
+
+const $createHeader = (title) => {
+  const $title = $("<h1>").text(title),
+  $topic = $("<h3>").text()
+  return $("<header>").append($title, $topic);
+}
+const $createFooter = () => {
+  const $arrow = $('<img>').attr('src', '../images/arrow-up.svg').addClass('arrow'),
+  $comment = $('<img>').attr('src', '../images/plus.svg').addClass('comment'),
+  $heart = $('<img>').attr('src', '../images/heart.svg').addClass('heart')
+  return $('<footer>').append($arrow, $comment, $heart);
 }
