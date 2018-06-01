@@ -1,3 +1,4 @@
+
 body {
   height: 100%;
   font-family: 'Lobster', cursive;
@@ -20,12 +21,11 @@ body {
 
 .container {
   min-height: 100%;
-  min-height: 100%;
   width: 60%;
   background: grey;
   margin: auto;
   padding: 10px;
-
+  
 }
 
 .header {
@@ -52,6 +52,41 @@ body {
   text-decoration: none;
   display: inline;
   margin-right: 10px;
+}
+.loginForm {
+  visibility: hidden;
+  position: fixed;
+  width: 51%;
+  justify-content: space-around;
+  opacity: .95;
+  height: 34%;
+  background: lightgrey;
+  margin: auto;
+  top: 30%;
+  left: 15%;
+  right: 15%;
+  bottom: 30%;
+  border-radius: 5px;
+  h1 {
+    font-size: 2em;
+    width: fit-content;
+    margin: 4% auto;
+  }
+  form {
+    width: fit-content;
+    margin: auto;
+    .email {
+      margin: 26px;
+    }
+    .password {
+      margin: 4px;
+    }
+    .loginButton {
+      font-size: 20px;
+      margin: 4% 28% 0 33%;
+      padding: 2% 11%;
+    }
+  }
 }
 
 .header img {
@@ -157,3 +192,22 @@ body {
   height: 35px;
 }
 
+@media screen and (min-width: 700px){
+  .container {
+    width: 664px;
+  }
+  .loginForm {
+    width: 565px;
+  }
+}
+@media screen and (max-width: 700px){
+  .container {
+    margin: 0;
+    width: 100%;
+  }
+  .loginForm {
+    left: 0;
+    right: 0;
+    width: 100%
+  }
+}
