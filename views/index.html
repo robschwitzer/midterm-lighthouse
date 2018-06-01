@@ -7,6 +7,7 @@
   </style> -->
   <link rel="stylesheet" href="../styles/style.css">
   <link href="https://fonts.googleapis.com/css?family=Lobster|Roboto" rel="stylesheet">
+
 </head>
 <body>
   <div class="main">
@@ -18,12 +19,69 @@
       </ul>
     </div>
     <div class='container'>
+<!-- <div class="search">
+  <form class='search' action="/action_page.php">
+    <select name="topics...">
+      <option value="html/css">html/css</option>
+      <option value="javascript">javaScript</option>
+      <option value="ruby">Ruby</option>
+      <option value="php">PHP</option>
+    </select>
+      <input class='search' type="text" placeholder="Search..">
+      <button>GO</button>
+  </form>
+</div> -->
+
+         <div class="search">
+          <select name="topics...">
+            <option value="html/css">html/css</option>
+            <option value="javascript">javaScript</option>
+            <option value="ruby">Ruby</option>
+            <option value="ajax">ajax</option>
+          </select>
+            <input type="text" class="searchTerm" placeholder="What are you looking for?">
+            <button type="submit" class="searchButton">GO</button>
+         </div>
+
+
       <div class="resource">
-      <h1 class="title">Title</h3>
-      <p class="desc">description description description description description description description description </p>
-      <a href="#">http://example.com</a>
-      <img id="arrow" src="../images/arrow-up.svg" alt="arrow">
-      <img id="heart" src="../images/heart.svg" alt="heart">
+        <header>
+          <h1 class="title">Title</h1>
+          <h3 class="topic">topic</h3>
+        </header>
+        <p class="desc">
+        description description description description description description description description  </p>
+        <p><a href="#">http://example.com</a></p>
+        <footer>
+          <img class="arrow" src="../images/arrow-up.svg" alt="arrow">
+          <img class="comment" src="../images/plus.svg" alt="toggle-comment">
+          <img class="heart" src="../images/heart.svg" alt="heart">
+        </footer>
+      </div>      <div class="resource">
+        <header>
+          <h1 class="title">Title</h1>
+          <h3 class="topic">topic</h3>
+        </header>
+        <p class="desc">description description description description description description description description </p>
+        <p><a href="#">http://example.com</a></p>
+        <footer>
+          <img class="arrow" src="../images/arrow-up.svg" alt="arrow">
+          <img class="viewcomm" src="../images/plus.svg" alt="toggle-comment">
+          <img class="heart" src="../images/heart.svg" alt="heart">
+        </footer>
+      </div>
+      <div class="resource">
+        <header>
+          <h1 class="title">Title</h1>
+          <h3 class="topic">topic</h3>
+        </header>
+        <p class="desc">description description description description description description description description </p>
+        <p><a href="#">http://example.com</a></p>
+        <footer>
+          <img class="arrow" src="../images/arrow-up.svg" alt="arrow">
+          <img class="viewcomm" src="../images/plus.svg" alt="toggle-comment">
+          <img class="heart" src="../images/heart.svg" alt="heart">
+        </footer>
       </div>
     </div>
     <div class="footer"><a class='add-resource' href="#"><h1>Add Resource</h1></a></div>
