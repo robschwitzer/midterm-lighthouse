@@ -11,7 +11,7 @@ $(() => {
       };
       getDocs(getComments, search);
 
-    })
+    });
 });
 
 const getComments = (doc_id, $doc_div) => {
@@ -22,6 +22,7 @@ const getComments = (doc_id, $doc_div) => {
     .done((comments) => {
       comments.forEach((packet) => {
         if (doc_id === packet.url_id) {
+          const $user = $('<h2>')
           const $comment = $("<div>")
             .text(packet.comment)
             .addClass('comment')
@@ -55,9 +56,10 @@ const getDocs = (cb, search) => {
         const $resource = $('<div>')
           .append($createHeader(doc.title), $description, $urlContainer, $createFooter())
           .addClass('resource');
-          
-          $resource
-            .append($createCommentBox());
+        const $commentBox = $createCommentBox();
+        $commentBox.data('url_id', doc.id);
+        $resource
+          .append($commentBox);
         cb(doc.id, $resource);
         $resource.appendTo('.container');
 
@@ -65,14 +67,20 @@ const getDocs = (cb, search) => {
 
 
       $('.postComment')
-        .on('submit', function (event) {
-          event.preventDefault()
-          $.ajax({
-            method: "POST",
-            url: '/api/comments',
-            data: $(this)
-              .serialize()
-          });
+      .on('submit', function (event) {
+        event.preventDefault()
+        $.ajax({
+          method: "POST",
+          url: '/api/comments',
+          data: {
+            comment: $(this).children('textarea')
+            .val(),
+            url_id: $(this)
+            .data('url_id')
+          }
+        })
+        console.log($(this).children('textarea')
+        .val())
         })
       $('.viewComment')
         .on('click', function (event) {
@@ -84,9 +92,6 @@ const getDocs = (cb, search) => {
         });
     });;
 }
-
-//const postComment = () => {}
-
 
 const $createHeader = (title) => {
   const $title = $("<h1>")

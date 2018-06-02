@@ -11,7 +11,7 @@ module.exports = (knex) => {
       .insert({
         comment: req.body.comment,
         url_id: req.body.url_id,
-        commenter_id: req.body.commenter_id
+        commenter_id: '1'//fake untill users are set up.
       })
       .then(function (result) {
         res.json({
@@ -19,6 +19,7 @@ module.exports = (knex) => {
           message: req.body.comment
         }); // respond back to request
       })
+      console.log(req.data);
   });
 
   router.get("/", (req, res) => {
