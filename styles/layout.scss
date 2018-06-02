@@ -1,14 +1,24 @@
-
 body {
   height: 100%;
   font-family: 'Lobster', cursive;
-  margin:0;
-  padding:0;
-  border:0;
+  margin: 0;
+  padding: 0;
+  border: 0;
   height: 100%;
   min-height: 100%;
   border-radius: 5px;
-  position:relative;
+  position: relative;
+}
+
+.toggleHidden {
+  visibility: hidden;
+}
+
+.postComment {
+  textarea {
+
+    width: 98%;
+  }
 }
 
 .main {
@@ -25,7 +35,7 @@ body {
   background: grey;
   margin: auto;
   padding: 10px;
-  
+
 }
 
 .header {
@@ -53,6 +63,7 @@ body {
   display: inline;
   margin-right: 10px;
 }
+
 .loginForm {
   visibility: hidden;
   position: fixed;
@@ -111,12 +122,12 @@ body {
 }
 
 .resource .title {
-  display:inline;
-  margin:0;
+  display: inline;
+  margin: 0;
 }
 
 .resource .topic {
-  display:inline;
+  display: inline;
   margin-left: 10px;
 }
 
@@ -130,7 +141,7 @@ body {
   bottom: 0;
 }
 
-.main > .footer {
+.main>.footer {
   position: fixed;
   border-radius: 5px;
   bottom: 0;
@@ -156,11 +167,12 @@ body {
   margin-bottom: 10px
 }
 
-#search{
+#search {
   width: 100%;
   margin: auto;
   display: inline-flex;
 }
+
 .searchTerm {
   width: 80%;
   margin: auto;
@@ -170,13 +182,15 @@ body {
   color: #9DBFAF;
 }
 
-.searchTerm:focus{
+.searchTerm:focus {
   color: #00B4CC;
 }
+
 .searchTopic {
   border-radius: 5px 0 0 5px;
   width: 15%;
 }
+
 .searchButton {
   width: 10%;
   border: 1px solid navy;
@@ -192,7 +206,7 @@ body {
   height: 35px;
 }
 
-@media screen and (min-width: 700px){
+@media screen and (min-width: 700px) {
   .container {
     width: 664px;
   }
@@ -200,7 +214,8 @@ body {
     width: 565px;
   }
 }
-@media screen and (max-width: 700px){
+
+@media screen and (max-width: 700px) {
   .container {
     margin: 0;
     width: 100%;
