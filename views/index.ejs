@@ -12,10 +12,26 @@
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 <body>
+  <div class="loginForm">
+    <h1>login</h1>
+  <br>
+    <form>
+       email
+      <input type="email" class="email">
+      <br>
+      password
+      <input type="password" class="password">
+      <br>
+      <input type="submit" value="login" class="loginButton">
+    </form>
+  </div>
   <div class="main">
     <div class="header">
       <img src="../images/frog.svg" alt="">
       <ul class='nav'>
+        <% if(user_id){ %>
+        <li> <%= user %> </li>
+        <% } %>
         <li>Login</li>
         <li>Register</li>
       </ul>
