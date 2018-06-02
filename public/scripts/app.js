@@ -1,5 +1,10 @@
 $(() => {
   getDocs(getComments);
+  search();
+
+});
+
+const search = () => {
   $('#search')
     .on('submit', function (event) {
       event.preventDefault();
@@ -12,25 +17,28 @@ $(() => {
       getDocs(getComments, search);
 
     });
-});
-
-const getComments = (doc_id, $doc_div) => {
+}
+const getComments = (doc_id, $doc_div, postingComment) => {
   $.ajax({
       method: "GET",
       url: "/api/comments"
     })
     .done((comments) => {
+      const ifHidden = postingComment ? '' : 'toggleHidden';
+
       comments.forEach((packet) => {
         if (doc_id === packet.url_id) {
           const $user = $('<h2>')
-          const $comment = $("<div>")
-            .text(packet.comment)
+            .text('that guy'); // place holer until users are implemented
+          const $description = $('<p>')
+            .text(packet.comment);
+          $("<div>")
             .addClass('comment')
-            .addClass('toggleHidden')
-            .insertBefore($doc_div.children('.postComment'))
+            .addClass(ifHidden)
+            .append($user, $description)
+            .insertBefore($doc_div.children('.postComment'));
         }
       });
-
     });
 }
 
@@ -62,35 +70,51 @@ const getDocs = (cb, search) => {
           .append($commentBox);
         cb(doc.id, $resource);
         $resource.appendTo('.container');
-
       });
+      PostComment();
+      toggleCommentVisibility()
+    });;
+}
 
+const toggleCommentVisibility = () => {
+  $('.viewComment')
+    .on('click', function (event) {
+      event.preventDefault()
+      $(this)
+        .parents('.resource')
+        .children('.toggleHidden')
+        .slideToggle();
+    });
+}
 
-      $('.postComment')
-      .on('submit', function (event) {
-        event.preventDefault()
-        $.ajax({
+const PostComment = () => {
+  $('.postComment')
+    .on('submit', function (event) {
+      event.preventDefault()
+      $.ajax({
           method: "POST",
           url: '/api/comments',
           data: {
-            comment: $(this).children('textarea')
-            .val(),
+            comment: $(this)
+              .children('textarea')
+              .val(),
             url_id: $(this)
-            .data('url_id')
+              .data('url_id')
           }
         })
-        console.log($(this).children('textarea')
-        .val())
-        })
-      $('.viewComment')
-        .on('click', function (event) {
-          event.preventDefault()
+        .done(() => {
+          getComments($(this)
+            .data("url_id"), $(this)
+            .parents('.resource'), true);
           $(this)
             .parents('.resource')
-            .children('.toggleHidden')
-            .slideToggle();
+            .children('.comment')
+            .detach();
+          $(this)
+            .children('textarea')
+            .val('')
         });
-    });;
+    });
 }
 
 const $createHeader = (title) => {
@@ -101,6 +125,7 @@ const $createHeader = (title) => {
   return $("<header>")
     .append($title, $topic);
 }
+
 const $createFooter = () => {
   const $arrow = $('<img>')
     .attr('src', './images/arrow-up.svg')
