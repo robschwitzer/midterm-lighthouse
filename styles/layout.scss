@@ -11,13 +11,18 @@ body {
 }
 
 .toggleHidden {
-  visibility: hidden;
+  display: none;
 }
 
 .postComment {
   textarea {
-
-    width: 98%;
+    width: 99%;
+    display: inline-flex;
+  }
+  input {
+    margin: 0 0 0 85%;
+    display: inline-flex;
+    width: 15%;
   }
 }
 

@@ -24,9 +24,9 @@ const getComments = (doc_id, $doc_div) => {
         if (doc_id === packet.url_id) {
           const $comment = $("<div>")
             .text(packet.comment)
-            .appendTo($doc_div)
             .addClass('comment')
-            .addClass('toggleHidden');
+            .addClass('toggleHidden')
+            .insertBefore($doc_div.children('.postComment'))
         }
       });
 
@@ -55,15 +55,15 @@ const getDocs = (cb, search) => {
         const $resource = $('<div>')
           .append($createHeader(doc.title), $description, $urlContainer, $createFooter())
           .addClass('resource');
-
+          
+          $resource
+            .append($createCommentBox());
         cb(doc.id, $resource);
         $resource.appendTo('.container');
 
       });
 
 
-      $('.resource')
-        .append($createCommentBox());
       $('.postComment')
         .on('submit', function (event) {
           event.preventDefault()
