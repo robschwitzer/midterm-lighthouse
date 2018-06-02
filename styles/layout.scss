@@ -10,22 +10,6 @@ body {
   position: relative;
 }
 
-.toggleHidden {
-  display: none;
-}
-
-.postComment {
-  textarea {
-    width: 99%;
-    display: inline-flex;
-  }
-  input {
-    margin: 0 0 0 85%;
-    display: inline-flex;
-    width: 15%;
-  }
-}
-
 .main {
   padding: 0;
   border: 0;
@@ -40,7 +24,10 @@ body {
   background: grey;
   margin: auto;
   padding: 10px;
+}
 
+.toggleHidden {
+  display: none;
 }
 
 .header {
@@ -69,41 +56,51 @@ body {
   margin-right: 10px;
 }
 
+
 .loginForm {
   visibility: hidden;
   position: fixed;
   width: 51%;
   justify-content: space-around;
   opacity: .95;
-  height: 34%;
-  background: lightgrey;
+  height: 285px;
+  background: #4096ad;
   margin: auto;
-  top: 30%;
+  top: -5%;
   left: 15%;
   right: 15%;
   bottom: 30%;
   border-radius: 5px;
-  h1 {
-    font-size: 2em;
-    width: fit-content;
-    margin: 4% auto;
-  }
-  form {
-    width: fit-content;
-    margin: auto;
-    .email {
-      margin: 26px;
-    }
-    .password {
-      margin: 4px;
-    }
-    .loginButton {
-      font-size: 20px;
-      margin: 4% 28% 0 33%;
-      padding: 2% 11%;
-    }
-  }
+  border: 1px solid black;
+  box-shadow: 0px 1px 50px #020202;
+  z-index: 1;
 }
+
+.loginForm h1 {
+  font-size: 2em;
+  width: fit-content;
+  margin: 4% auto;
+}
+
+.loginForm form {
+  width: fit-content;
+  margin: auto;
+}
+
+.loginForm form .email {
+  margin: 26px;
+}
+
+.loginForm form .password {
+  margin: 4px;
+}
+
+.loginForm form .loginButton {
+  font-size: 20px;
+  margin: 4% 28% 0 33%;
+  padding: 2% 11%;
+}
+
 
 .header img {
   margin-left: 30px;
@@ -111,65 +108,12 @@ body {
   height: 80px;
 }
 
-
-.resource {
-  background-color: white;
-  width: 95%;
-  padding: 10px;
-  margin: 30px auto;
-  border-radius: 3px;
-  border: 1px solid black;
-}
-
-.resource header {
-  display: flex;
-  align-items: center;
-}
-
-.resource .title {
-  display: inline;
-  margin: 0;
-}
-
-.resource .topic {
-  display: inline;
-  margin-left: 10px;
-}
-
-.resource footer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.resource img {
-  height: 30px;
-  bottom: 0;
-}
-
-.main>.footer {
-  position: fixed;
-  border-radius: 5px;
-  bottom: 0;
-  width: 33%;
-  margin: auto;
-  margin-left: 33%;
-  height: 90px;
-  background-color: #f5f5f5;
-}
-
-.add-resource {
-  text-decoration: none;
-  text-align: center;
-  border-radius: 3px;
-  width: 66%;
-}
-
 .search {
   justify-content: center;
   position: relative;
   height: 25px;
   margin-top: 3px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 #search {
@@ -211,6 +155,104 @@ body {
   height: 35px;
 }
 
+.resource {
+  background-color: white;
+  width: 95%;
+  padding: 10px;
+  margin: 30px auto;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.resource header {
+  display: flex;
+  align-items: center;
+}
+
+.resource .title {
+  display: inline;
+  margin: 0;
+}
+
+.resource .topic {
+  display: inline;
+  margin-left: 10px;
+}
+
+.resource footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.resource img {
+  height: 30px;
+  bottom: 0;
+}
+
+.postComment {
+  textarea {
+    width: 99%;
+    display: inline-flex;
+  }
+  input {
+    margin: 0 0 0 85%;
+    display: inline-flex;
+    width: 15%;
+  }
+}
+
+
+.main > .footer {
+  position: fixed;
+  border-radius: 5px;
+  bottom: 0;
+  width: 33%;
+  margin: auto;
+  margin-left: 33%;
+  height: 90px;
+  background-color: #f5f5f5;
+}
+
+.add-resource {
+  text-decoration: none;
+  text-align: center;
+  border-radius: 3px;
+  width: 66%;
+}
+
+.add-box {
+  visibility: hidden;
+  background: #4096ad;
+  height: 300px;
+  width: 54%;
+  margin: auto;
+  border-radius: 5px;
+  box-shadow: 0px 1px 50px #020202;
+  opacity: .95;
+}
+
+.add-url {
+  margin-left: 40px;
+  padding-top: 30px;
+}
+
+.add-url-caption {
+  font-size: 35px;
+}
+
+.add-url-field {
+  width: 90%;
+  border-radius: 5px;
+}
+
+.addButton {
+
+  margin-top: 15px;
+  padding: 3px;
+  width: 15%;
+  font-size: 20px;
+}
+
 @media screen and (min-width: 700px) {
   .container {
     width: 664px;
@@ -228,6 +270,6 @@ body {
   .loginForm {
     left: 0;
     right: 0;
-    width: 100%
+    width: 100%;
   }
 }

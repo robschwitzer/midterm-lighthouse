@@ -11,6 +11,7 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
+
 <body>
   <div class="loginForm">
     <h1>login</h1>
@@ -25,6 +26,7 @@
       <input type="submit" value="login" class="loginButton">
     </form>
   </div>
+
   <div class="main">
     <div class="header">
       <img src="../images/frog.svg" alt="">
@@ -36,28 +38,36 @@
         <li>Register</li>
       </ul>
     </div>
-    <div class='container'>
 
-
-<div class="search">
-    <form id='search' action="/action_page.php">
-    <select class='searchTopic'>
-      <option value="alldocs">alldocs</option>
-      <option value="html">html/css</option>
-      <option value="ruby">Ruby</option>
-      <option value="ajax">ajax</option>
-    </select>
-    <input type="text" class="searchTerm" placeholder="What are you looking for?">
-    <button type="submit" class="searchButton">GO</button>
-  </form>
+  <div class='container'>
+    <div class="search">
+      <form id='search' action="/action_page.php">
+        <select class='searchTopic'>
+          <option value="alldocs">alldocs</option>
+          <option value="html">html/css</option>
+          <option value="ruby">Ruby</option>
+          <option value="ajax">ajax</option>
+        </select>
+      <input type="text" class="searchTerm" placeholder="What are you looking for?">
+      <button type="submit" class="searchButton">GO</button>
+      </form>
+    </div>
   </div>
 
+  <div class="footer"><a class='add-resource' href="#"><h1>Add Resource</h1></a></div>
 
-
-      </div>
-    <div class="footer"><a class='add-resource' href="#"><h1>Add Resource</h1></a></div>
+  <div class="add-box">
+    <form class='add-url'>
+      <div class='add-url-caption'>Title</div>
+      <input type="text" class="add-url-field" placeholder="add a title">
+      <div class='add-url-caption'>Description</div>
+      <input type="text" class="add-url-field" placeholder='add a description'>
+      <div class='add-url-caption'>url</div>
+      <input type="text" class="add-url-field" placeholder='http://'>
+      <input type="submit" value="add" class="addButton">
+    </form>
+   </div>
   </div>
 </body>
-</html>
 
 </html>
