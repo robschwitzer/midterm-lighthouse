@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const cookieSession = require('cookie-session');
 
 module.exports = (knex) => {
 
@@ -12,9 +13,8 @@ module.exports = (knex) => {
       .where("email", "=", req.body.email)
       .where("password", "=", req.body.password)
       .then( function (results) {
-      res.json(results)
-      req.session.user = results;
-      
+      req.session.user = results
+      res.json(results);
       });
     });
 
