@@ -14,5 +14,14 @@ module.exports = (knex) => {
     });
   });
 
+  router.get("/:id/docs", (req, res) => {
+    knex
+      .select("*")
+      .from("urls")
+      .where('creator_id', '=', req.params.id)
+      .then((results) => {
+        res.json(results);
+    });
+  });
   return router;
 }
