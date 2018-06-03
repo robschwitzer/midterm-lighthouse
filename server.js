@@ -26,6 +26,16 @@ const loginRoutes    = require("./routes/login");
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
+app.use(cookieSession({
+  name: 'session',
+  keys: ['asdf', 'asde', 'wqwwt'],
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}));
+app.use('/', (req, res, next) => {
+  res.locals.user_id = req.session.user;
+  next();
+});
 app.use(morgan('dev'));
 
 // Log knex SQL queries to STDOUT as well
@@ -41,16 +51,6 @@ app.use("/styles", sass({
   outputStyle: 'expanded'
 }));
 app.use(express.static("public"));
-app.use(cookieSession({
-  name: 'session',
-  keys: ['asdf', 'asde', 'wqwwt'],
-  // Cookie Options
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours
-}));
-app.use('/', (req, res, next) => {
-  res.locals.user_id = req.session.user;
-  next();
-});
 // Mount all resource routes
 app.use("/api/docs", urlsRoutes(knex));
 app.use("/api/users", usersRoutes(knex));
@@ -62,6 +62,7 @@ app.use("/api/login", loginRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+  console.log(req.session)
   res.render("index");
 });
 

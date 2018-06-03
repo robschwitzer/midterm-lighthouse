@@ -16,12 +16,12 @@
   <div class="loginForm toggleHidden" >
     <h1>login</h1>
   <br>
-    <form>
+    <form id="loginFormBody" method="POST" action="/api/login">
        email
-      <input type="email" class="email">
+      <input name="email" type="email" class="email">
       <br>
       password
-      <input type="password" class="password">
+      <input name="password" type="password" class="password">
       <br>
       <input type="submit" value="login" class="loginButton">
     </form>
@@ -31,15 +31,17 @@
     <div class="header">
       <img src="../images/jenkins.svg" alt="">
       <ul class='nav'>
-        <% if(user_id){ %>
-        <li> <%= user %> </li>
-        <% } %>
-        <li id="navLoginButton">Login</li>
+        <% if(user_id !== undefined){ %>
+          <li id="useremail"> <%= user_id.email %> </li>
+          <li id="navLogoutButton">logout</li>
+         <% } else { %>
+        <li id="navLoginButton">Login </li>
         <li>Register</li>
+      <% } %>
       </ul>
     </div>
-
-  <div class='container'>
+    
+    <div class='container'>
     <div class="search">
       <form id='search' action="/">
         <select class='searchTopic'>

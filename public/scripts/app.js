@@ -9,43 +9,72 @@ $(() => {
     .on('click', function (event) {
       event.preventDefault();
       $.ajax({
-        method: "POST",
-        url: '/api/docs',
-        data: {
-          title: $('#title')
-            .val(),
-          description: $('#desc')
-            .val(),
-          url: $('#url')
-            .val(),
-          created_at: '2018-06-18',
-          creator_id: 2
-        }
-      })
-      .done(() => {
-        getDocs(getComments);
-        $('.add-box')
-        .slideToggle('slow');
-      })
+          method: "POST",
+          url: '/api/docs',
+          data: {
+            title: $('#title')
+              .val(),
+            description: $('#desc')
+              .val(),
+            url: $('#url')
+              .val(),
+            created_at: '2018-06-18',
+            creator_id: 2
+          }
+        })
+        .done(() => {
+          getDocs(getComments);
+          $('.add-box')
+            .slideToggle('slow');
+        })
     });
 
-  $('.loginButton')
-    .on('click', function (event) {
+  $('#loginFormBody')
+    .on('submit', function (event) {
       event.preventDefault();
-      $('.password')
-        .css('color', 'blue')
       $.ajax({
         method: 'POST',
         url: '/api/login',
-        data: {
-          email: $('.email')
-            .val(),
-          password: $('.password')
-            .val()
-        }
+        data: $(this)
+          .serialize()
+      }).done((user) => {
+        const $logout = $('<li>')
+          .attr('id', 'navLogoutButton')
+          .text('Logout')
+        const $email = $('<li>')
+          .attr('id', 'useremail')
+          .text(user.email)
+        $('.nav')
+          .children()
+          .remove();
+        $('.nav')
+          .append($logout, $email)
       });
     });
+  $('#navLogoutButton')
+    .on('click', function (event) {
+      event.preventDefault();
+      $.ajax({
+          method: 'DELETE',
+          url: '/api/login',
+        })
+        .done(() => {
+          const $login = $('<li>')
+            .attr('id', 'navLoginButton')
+            .text('Login')
+          const $register = $('<li>')
+            .attr('id', 'register')
+            .text('register')
+          $('.nav')
+            .children()
+            .remove();
+          $('.nav')
+            .append($login, $register)
+        });
+
+    });
 });
+
 
 const slideUpResMaker = () => {
   $('.add-resource')
