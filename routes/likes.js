@@ -1,7 +1,8 @@
 "use strict";
-
 const express = require('express');
 const router = express.Router();
+const cookieSession = require('cookie-session');
+
 
 module.exports = (knex) => {
 
@@ -22,8 +23,8 @@ module.exports = (knex) => {
     knex
       ("likes")
       .insert({
-        like: req.body.like,
-        liker_id: req.body.liker_id,
+        like: true,
+        liker_id: req.session.id,
         url_id: req.body.url_id
       })
       .then(function () {
@@ -36,11 +37,10 @@ module.exports = (knex) => {
   router.put("/", (req, res) => {
     knex
       ("likes")
-      .update({
-        like: req.body.like,
-      })
-      .where('url_id', '=', req.body.url_id)
-      .where('liker_id', '=', req.body.liker_id)
+      .where('url_id', '=', req.session.url_id)
+      .where('liker_id', '=', req.session.id)
+      .del()
+
       .then(function () {
         res.json({
           message: 'successfully adjusted like'

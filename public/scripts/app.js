@@ -43,9 +43,16 @@ $(() => {
           password: $('.password')
             .val()
         }
-      });
+      })
+      .done(() => {
+        $('.loginButton').on('click')
+        $('.loginForm')
+        .effect('drop');
+      })
     });
 });
+
+
 
 const slideUpResMaker = () => {
   $('.add-resource')
