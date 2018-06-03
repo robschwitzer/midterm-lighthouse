@@ -2,6 +2,12 @@ $(() => {
   getDocs(getComments);
   search();
 
+$('.add-resource')
+  .on('click', function(event) {
+    event.preventDefault();
+   $('.add-box').slideToggle('slow');
+  });
+
 });
 
 const search = () => {
@@ -19,13 +25,6 @@ const search = () => {
     });
 }
 
-
-$('.add-resource')
-  .on('click', function(event) {
-    event.preventDefault();
-   $('.add-box').slideToggle('slow');
-  });
-  
 const getComments = (doc_id, $doc_div, postingComment) => {
   $.ajax({
       method: "GET",
