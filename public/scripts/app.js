@@ -59,7 +59,7 @@ const loginAjax = () => {
           $('.loginForm')
             .fadeOut('slow');
           logoutAjax(); //rebinding
-          searchByUser();//rebinding
+          searchByUser(); //rebinding
         });
     });
 }
@@ -89,6 +89,7 @@ const logoutAjax = () => {
 
     });
 }
+
 const slideUpResMaker = () => {
   $('.add-resource')
     .on('click', function (event) {
@@ -151,8 +152,9 @@ const getComments = (doc_id, $doc_div, postingComment) => {
 
 const searchByUser = () => {
   $('#useremail')
-    .click( function () {
-      console.log($(this).data())
+    .click(function () {
+      console.log($(this)
+        .data())
       $.ajax({
           method: "GET",
           url: `/api/users/${$(this).val()}/docs`
