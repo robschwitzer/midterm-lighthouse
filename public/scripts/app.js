@@ -12,7 +12,15 @@ $(() => {
       getDocs(getComments, search);
 
     });
-});
+
+
+$('.add-resource')
+  .on('click', function(event) {
+    event.preventDefault();
+   $('.add-box').slideToggle('slow');
+  });
+
+});//this is the end of doc ready function!!!!!!!
 
 const getComments = (doc_id, $doc_div) => {
   $.ajax({
@@ -92,6 +100,7 @@ const getDocs = (cb, search) => {
         });
     });;
 }
+
 
 const $createHeader = (title) => {
   const $title = $("<h1>")
