@@ -2,11 +2,12 @@ $(() => {
   getDocs(getComments);
   search();
 
-$('.add-resource')
-  .on('click', function(event) {
-    event.preventDefault();
-   $('.add-box').slideToggle('slow');
-  });
+  $('.add-resource')
+    .on('click', function (event) {
+      event.preventDefault();
+      $('.add-box')
+        .slideToggle('slow');
+    });
 
 });
 
@@ -32,6 +33,7 @@ const getComments = (doc_id, $doc_div, postingComment) => {
     })
     .done((comments) => {
       const ifHidden = postingComment ? '' : 'toggleHidden';
+      const $commentContainer = $('<div>');
 
       comments.forEach((packet) => {
         if (doc_id === packet.url_id) {
@@ -43,9 +45,12 @@ const getComments = (doc_id, $doc_div, postingComment) => {
             .addClass('comment')
             .addClass(ifHidden)
             .append($user, $description)
-            .insertBefore($doc_div.children('.postComment'));
+            .appendTo($commentContainer)
         }
       });
+      $commentContainer.insertBefore($doc_div.children('.postComment'));
+
+
     });
 }
 
@@ -78,8 +83,8 @@ const getDocs = (cb, search) => {
         cb(doc.id, $resource);
         $resource.appendTo('.container');
       });
+      toggleCommentVisibility();
       PostComment();
-      toggleCommentVisibility()
     });;
 }
 
@@ -87,6 +92,11 @@ const toggleCommentVisibility = () => {
   $('.viewComment')
     .on('click', function (event) {
       event.preventDefault()
+      $(this)
+        .parents('.resource')
+        .children('div')
+        .children('.comment')
+        .slideToggle();
       $(this)
         .parents('.resource')
         .children('.toggleHidden')
@@ -110,16 +120,17 @@ const PostComment = () => {
           }
         })
         .done(() => {
+          $(this)
+            .parents('.resource')
+            .children('div')
+            .children('.comment')
+            .remove();
           getComments($(this)
             .data("url_id"), $(this)
             .parents('.resource'), true);
           $(this)
-            .parents('.resource')
-            .children('.comment')
-            .detach();
-          $(this)
             .children('textarea')
-            .val('')
+            .val('');
         });
     });
 }
