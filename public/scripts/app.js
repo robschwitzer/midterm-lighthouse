@@ -1,14 +1,40 @@
 $(() => {
   getDocs(getComments);
   search();
+  fadeInLoginForm();
+  slideUpResMaker();
 
-$('.add-resource')
-  .on('click', function(event) {
-    event.preventDefault();
-   $('.add-box').slideToggle('slow');
-  });
-
+  $('.loginButton')
+    .on('click', function (event) {
+      event.preventDefault();
+      $('.password').css('color', 'blue')
+      $.ajax({
+        method: 'POST',
+        url: '/api/login',
+        data: {
+          email: $('.email').val(),
+          password: $('.password').val()
+        }
+      });
+    });
 });
+
+const slideUpResMaker = () => {
+  $('.add-resource')
+    .on('click', function (event) {
+      event.preventDefault();
+      $('.add-box')
+        .slideToggle('slow');
+    });
+}
+
+const fadeInLoginForm = () => {
+  $("#navLoginButton")
+    .on('click', function () {
+      $('.loginForm')
+        .fadeToggle();
+    });
+}
 
 const search = () => {
   $('#search')
@@ -123,7 +149,6 @@ const PostComment = () => {
         });
     });
 }
-
 
 const $createHeader = (title) => {
   const $title = $("<h1>")

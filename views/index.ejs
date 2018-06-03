@@ -13,7 +13,7 @@
   </head>
 
 <body>
-  <div class="loginForm">
+  <div class="loginForm toggleHidden" >
     <h1>login</h1>
   <br>
     <form>
@@ -34,7 +34,7 @@
         <% if(user_id){ %>
         <li> <%= user %> </li>
         <% } %>
-        <li>Login</li>
+        <li id="navLoginButton">Login</li>
         <li>Register</li>
       </ul>
     </div>
