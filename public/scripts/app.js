@@ -1,33 +1,69 @@
 $(() => {
   getDocs(getComments);
   search();
+  fadeInLoginForm();
+  slideUpResMaker();
 
-$('.add-resource')
-  .on('click', function(event) {
-    event.preventDefault();
-   $('.add-box').slideToggle('slow');
-  });
 
-$('.addButton')
-  .on('click', function (event) {
-    event.preventDefault();
-  $.ajax({
-      method: "POST",
-      url: '/api/docs',
-      data: {
-        title: $('#title')
-          .val(),
-        description: $('#desc')
-          .val(),
-        url: $('#url')
-          .val(),
-        created_at: '2018-06-18',
-        creator_id: 2
-      }
+  $('.addButton')
+    .on('click', function (event) {
+      event.preventDefault();
+      $.ajax({
+        method: "POST",
+        url: '/api/docs',
+        data: {
+          title: $('#title')
+            .val(),
+          description: $('#desc')
+            .val(),
+          url: $('#url')
+            .val(),
+          created_at: '2018-06-18',
+          creator_id: 2
+        }
+      })
+      .done(() => {
+        getDocs(getComments);
+        $('.add-box')
+        .slideDown();
+      })
     });
-  });
 
+  $('.loginButton')
+    .on('click', function (event) {
+      event.preventDefault();
+      $('.password')
+        .css('color', 'blue')
+      $.ajax({
+        method: 'POST',
+        url: '/api/login',
+        data: {
+          email: $('.email')
+            .val(),
+          password: $('.password')
+            .val()
+        }
+      });
+    });
 });
+
+const slideUpResMaker = () => {
+  $('.add-resource')
+    .on('click', function (event) {
+      event.preventDefault();
+      $('.add-box')
+        .slideToggle('slow');
+    });
+}
+
+
+const fadeInLoginForm = () => {
+  $("#navLoginButton")
+    .on('click', function () {
+      $('.loginForm')
+        .fadeToggle();
+    });
+}
 
 const search = () => {
   $('#search')
@@ -51,6 +87,7 @@ const getComments = (doc_id, $doc_div, postingComment) => {
     })
     .done((comments) => {
       const ifHidden = postingComment ? '' : 'toggleHidden';
+      const $commentContainer = $('<div>');
 
       comments.forEach((packet) => {
         if (doc_id === packet.url_id) {
@@ -62,9 +99,12 @@ const getComments = (doc_id, $doc_div, postingComment) => {
             .addClass('comment')
             .addClass(ifHidden)
             .append($user, $description)
-            .insertBefore($doc_div.children('.postComment'));
+            .appendTo($commentContainer)
         }
       });
+      $commentContainer.insertBefore($doc_div.children('.postComment'));
+
+
     });
 }
 
@@ -95,10 +135,10 @@ const getDocs = (cb, search) => {
         $resource
           .append($commentBox);
         cb(doc.id, $resource);
-        $resource.appendTo('.container');
+        $resource.insertAfter('.search');
       });
+      toggleCommentVisibility();
       PostComment();
-      toggleCommentVisibility()
     });;
 }
 
@@ -106,6 +146,11 @@ const toggleCommentVisibility = () => {
   $('.viewComment')
     .on('click', function (event) {
       event.preventDefault()
+      $(this)
+        .parents('.resource')
+        .children('div')
+        .children('.comment')
+        .slideToggle();
       $(this)
         .parents('.resource')
         .children('.toggleHidden')
@@ -129,20 +174,20 @@ const PostComment = () => {
           }
         })
         .done(() => {
+          $(this)
+            .parents('.resource')
+            .children('div')
+            .children('.comment')
+            .remove();
           getComments($(this)
             .data("url_id"), $(this)
             .parents('.resource'), true);
           $(this)
-            .parents('.resource')
-            .children('.comment')
-            .detach();
-          $(this)
             .children('textarea')
-            .val('')
+            .val('');
         });
     });
 }
-
 
 const $createHeader = (title) => {
   const $title = $("<h1>")
