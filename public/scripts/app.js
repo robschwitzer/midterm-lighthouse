@@ -8,6 +8,25 @@ $('.add-resource')
    $('.add-box').slideToggle('slow');
   });
 
+$('.addButton')
+  .on('click', function (event) {
+    event.preventDefault();
+  $.ajax({
+      method: "POST",
+      url: '/api/docs',
+      data: {
+        title: $('#title')
+          .val(),
+        description: $('#desc')
+          .val(),
+        url: $('#url')
+          .val(),
+        created_at: '2018-06-18',
+        creator_id: 2
+      }
+    });
+  });
+
 });
 
 const search = () => {

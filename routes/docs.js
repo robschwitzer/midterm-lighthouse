@@ -11,7 +11,7 @@ module.exports = (knex) => {
     id: req.body.id,
     url: req.body.url,
     title: req.body.title,
-    description: req.body.title,
+    description: req.body.description,
     created_at: req.body.created_at,
     creator_id: req.body.creator_id
     })
