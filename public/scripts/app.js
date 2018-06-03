@@ -33,23 +33,29 @@ $(() => {
     .on('submit', function (event) {
       event.preventDefault();
       $.ajax({
-        method: 'POST',
-        url: '/api/login',
-        data: $(this)
-          .serialize()
-      }).done((user) => {
-        const $logout = $('<li>')
-          .attr('id', 'navLogoutButton')
-          .text('Logout')
-        const $email = $('<li>')
-          .attr('id', 'useremail')
-          .text(user.email)
-        $('.nav')
-          .children()
-          .remove();
-        $('.nav')
-          .append($logout, $email)
-      });
+          method: 'POST',
+          url: '/api/login',
+          data: $(this)
+            .serialize()
+        })
+        .done((user) => {
+          const $logout = $('<li>')
+            .attr('id', 'navLogoutButton')
+            .text('Logout')
+          const $email = $('<li>')
+            .attr('id', 'useremail')
+            .text(user.email)
+          $('.nav')
+            .children()
+            .remove();
+          $('.nav')
+            .append($logout, $email)
+
+          $('.loginButton')
+            .on('click')
+          $('.loginForm')
+            .effect('drop');
+        });
     });
   $('#navLogoutButton')
     .on('click', function (event) {
@@ -74,7 +80,6 @@ $(() => {
 
     });
 });
-
 
 const slideUpResMaker = () => {
   $('.add-resource')
