@@ -5,6 +5,7 @@ $(() => {
   slideUpResMaker();
   logoutAjax();
   loginAjax();
+  searchByUser();
 
   $('.addButton')
     .on('click', function (event) {
@@ -27,71 +28,72 @@ $(() => {
           getDocs(getComments);
           $('.add-box')
             .slideToggle('slow');
-          })
-        });
-      });
-      
-      const loginAjax = () => {
-        $('#loginFormBody')
-        .on('submit', function (event) {
-          event.preventDefault();
-          $.ajax({
-            method: 'POST',
-            url: '/api/login',
-            data: $(this)
+        })
+    });
+});
+
+const loginAjax = () => {
+  $('#loginFormBody')
+    .on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+          method: 'POST',
+          url: '/api/login',
+          data: $(this)
             .serialize()
-          })
-          .done((user) => {
-            const $logout = $('<li>')
+        })
+        .done((user) => {
+          const $logout = $('<li>')
             .attr('id', 'navLogoutButton')
             .text('Logout')
-            const $email = $('<li>')
+          const $email = $('<li>')
             .attr('id', 'useremail')
             .text(user.email)
-            $('.nav')
+          $('.nav')
             .children()
             .remove();
-            $('.nav')
+          $('.nav')
             .append($logout, $email)
-            $('.loginButton')
+          $('.loginButton')
             .on('click')
           $('.loginForm')
-          .fadeOut('slow');
-          logoutAjax();//rebinding
+            .fadeOut('slow');
+          logoutAjax(); //rebinding
+          searchByUser();//rebinding
         });
-      });
-    }
-    
-    const logoutAjax = () => {
-      $('#navLogoutButton')
-      .on('click', function (event) {
-        event.preventDefault();
-        $.ajax({
+    });
+}
+
+const logoutAjax = () => {
+  $('#navLogoutButton')
+    .on('click', function (event) {
+      event.preventDefault();
+      $.ajax({
           method: 'DELETE',
           url: '/api/login',
         })
         .done(() => {
           const $login = $('<li>')
-          .attr('id', 'navLoginButton')
-          .text('Login')
+            .attr('id', 'navLoginButton')
+            .text('Login')
           const $register = $('<li>')
-          .attr('id', 'register')
-          .text('register')
+            .attr('id', 'register')
+            .text('register')
           $('.nav')
-          .children()
-          .remove();
+            .children()
+            .remove();
           $('.nav')
-          .append($login, $register);
-          fadeInLoginForm();//rebinding
+            .append($login, $register);
+          fadeInLoginForm(); //rebinding
         });
-        
-      });
-    }
-    const slideUpResMaker = () => {
-      $('.add-resource')
-      .on('click', function (event) {
-        event.preventDefault();
-        $('.add-box')
+
+    });
+}
+const slideUpResMaker = () => {
+  $('.add-resource')
+    .on('click', function (event) {
+      event.preventDefault();
+      $('.add-box')
         .slideToggle('slow');
     });
 }
@@ -147,38 +149,55 @@ const getComments = (doc_id, $doc_div, postingComment) => {
     });
 }
 
+const searchByUser = () => {
+  $('#useremail')
+    .click( function () {
+      console.log($(this).data())
+      $.ajax({
+          method: "GET",
+          url: `/api/users/${$(this).val()}/docs`
+        })
+        .done((docs) => {
+          makeDocs(docs, getComments);
+        });;
+    });
+}
+
 const getDocs = (cb, search) => {
   $('.resource')
     .remove();
-  const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`
+  const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`;
 
   $.ajax({
       method: "GET",
       url: route
     })
     .done((docs) => {
-      docs.forEach((doc) => {
-        const $description = $("<p>")
-          .addClass('desc')
-          .text(doc.description);
-        const $url = $("<a>")
-          .text(doc.url)
-          .attr('href', doc.url),
-          $urlContainer = $('<p>')
-          .append($url);
-        const $resource = $('<div>')
-          .append($createHeader(doc.title), $description, $urlContainer, $createFooter())
-          .addClass('resource');
-        const $commentBox = $createCommentBox();
-        $commentBox.data('url_id', doc.id);
-        $resource
-          .append($commentBox);
-        cb(doc.id, $resource);
-        $resource.insertAfter('.search');
-      });
-      toggleCommentVisibility();
-      PostComment();
+      makeDocs(docs, cb);
     });;
+}
+const makeDocs = (docs, cb) => {
+  docs.forEach((doc) => {
+    const $description = $("<p>")
+      .addClass('desc')
+      .text(doc.description);
+    const $url = $("<a>")
+      .text(doc.url)
+      .attr('href', doc.url),
+      $urlContainer = $('<p>')
+      .append($url);
+    const $resource = $('<div>')
+      .append($createHeader(doc.title), $description, $urlContainer, $createFooter())
+      .addClass('resource');
+    const $commentBox = $createCommentBox();
+    $commentBox.data('url_id', doc.id);
+    $resource
+      .append($commentBox);
+    cb(doc.id, $resource);
+    $resource.insertAfter('.search');
+  });
+  toggleCommentVisibility();
+  PostComment();
 }
 
 const toggleCommentVisibility = () => {

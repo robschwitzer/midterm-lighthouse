@@ -56,7 +56,6 @@ body {
   margin-right: 10px;
 }
 
-
 .loginForm {
   display: none;
   position: fixed;
@@ -100,7 +99,6 @@ body {
   margin: 4% 28% 0 33%;
   padding: 2% 11%;
 }
-
 
 .header img {
   margin-left: 80px;
@@ -188,16 +186,15 @@ body {
   bottom: 0;
 }
 
-.postComment {
-  textarea {
-    width: 99%;
-    display: inline-flex;
-  }
-  input {
-    margin: 0 0 0 85%;
-    display: inline-flex;
-    width: 15%;
-  }
+.postComment textarea {
+  width: 99%;
+  display: inline-flex;
+}
+
+.postComment input {
+  margin: 0 0 0 85%;
+  display: inline-flex;
+  width: 15%;
 }
 
 .footer-tab {
@@ -208,11 +205,10 @@ body {
   margin: auto;
   margin-left: 33%;
   background-color: #f5f5f5;
-
   /*height: 90px;*/
 }
 
-.black{
+.black {
   background: black;
 }
 
@@ -235,13 +231,13 @@ body {
 }
 
 .add-box {
-  display:none;
+  display: none;
   margin-left: -15%;
   width: 130%;
   background: #4096ad;
   height: 300px;
-  top:0;
-  bottom:0;
+  top: 0;
+  bottom: 0;
   border-radius: 5px;
   box-shadow: 0px 1px 50px #020202;
   opacity: .95;
@@ -253,6 +249,16 @@ body {
 }
 
 .add-url-caption {
+
+  font-size: 35px;
+}
+
+.add-desc-caption {
+  font-size: 35px;
+}
+
+.add-title-caption {
+
   font-size: 35px;
 }
 
@@ -261,8 +267,13 @@ body {
   border-radius: 5px;
 }
 
-.addButton {
+.selectTopic {
+  border-radius: 5px 0 0 5px;
+  width: 15%;
+  margin: -468px;
+}
 
+.addButton {
   margin-top: 15px;
   padding: 3px;
   width: 15%;

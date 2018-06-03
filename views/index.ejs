@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Home Page</title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lobster|Roboto" rel="stylesheet">
+<head>
+  <title>Home Page</title>
 
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script
-  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lobster|Roboto" rel="stylesheet">
 
-    <script type="text/javascript" src="/scripts/app.js"></script>
-  </head>
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="/scripts/app.js"></script>
+</head>
 
 <body>
-  <div class="loginForm toggleHidden" >
+  <div class="loginForm toggleHidden">
     <h1>login</h1>
-  <br>
+    <br>
     <form id="loginFormBody" method="POST" action="/api/login">
-       email
+      email
       <input name="email" type="email" class="email">
-      <br>
-      password
+      <br> password
       <input name="password" type="password" class="password">
       <br>
       <input type="submit" value="login" class="loginButton">
@@ -37,52 +34,58 @@
       <img src="../images/jenkins.svg" alt="">
       <ul class='nav'>
         <% if(user_id !== undefined){ %>
-          <li id="useremail"> <%= user_id.email %> </li>
-          <li id="navLogoutButton">logout</li>
-         <% } else { %>
-        <li id="navLoginButton">Login </li>
-        <li>Register</li>
-      <% } %>
+          <li data-user-id="<%= user_id.id %>" id="useremail">
+            <%= user_id.email %>
+          </li>
+          <li id="navLogoutButton">logout</li> 
+            <% } else { %>
+              <li id="navLoginButton">Login </li>
+              <li>Register</li>
+              <% } %>
       </ul>
     </div>
-    
+
     <div class='container'>
-    <div class="search">
-      <form id='search' action="/">
-        <select class='searchTopic'>
+      <div class="search">
+        <form id='search' action="/">
+          <select class='searchTopic'>
           <option value="alldocs">alldocs</option>
           <option value="html">html/css</option>
           <option value="ruby">Ruby</option>
           <option value="ajax">ajax</option>
         </select>
-      <input type="text" class="searchTerm" placeholder="What are you looking for?">
-      <button type="submit" class="searchButton">GO</button>
-      </form>
+          <input type="text" class="searchTerm" placeholder="What are you looking for?">
+          <button type="submit" class="searchButton">GO</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-tab">
+      <div class="footer">
+        <a class='add-resource'>
+          <h1>Add Resource</h1>
+        </a>
+      </div>
+
+      <div class="add-box">
+        <form class='add-url'>
+          <div class='add-url-caption'>Title</div>
+
+          <input type="text" name='title' class="add-url-field" id='title' placeholder="add a title">
+
+          <div class='add-url-caption'>Description</div>
+
+          <input type="text" name='description' class="add-url-field" id='desc' placeholder='add a description'>
+
+          <div class='add-url-caption'>url</div>
+
+          <input type="text" name='url' class="add-url-field" id='url' placeholder='http://'>
+
+          <input type="submit" value="add" class="addButton">
+        </form>
+      </div>
     </div>
   </div>
-
-  <div class="footer-tab">
-  <div class="footer"><a class='add-resource'><h1>Add Resource</h1></a></div>
-
-  <div class="add-box">
-    <form class='add-url'>
-      <div class='add-url-caption'>Title</div>
-
-      <input type="text" name='title' class="add-url-field" id='title' placeholder="add a title">
-
-      <div class='add-url-caption'>Description</div>
-
-      <input type="text" name='description' class="add-url-field" id='desc' placeholder='add a description'>
-
-      <div class='add-url-caption'>url</div>
-
-      <input type="text" name='url' class="add-url-field" id='url' placeholder='http://'>
-
-      <input type="submit" value="add" class="addButton">
-    </form>
-   </div>
-  </div>
-</div>
 </body>
 
 </html>
