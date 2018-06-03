@@ -30,7 +30,7 @@ $(() => {
           })
         });
       });
-      
+
       const loginAjax = () => {
         $('#loginFormBody')
         .on('submit', function (event) {
@@ -61,7 +61,7 @@ $(() => {
         });
       });
     }
-    
+
     const logoutAjax = () => {
       $('#navLogoutButton')
       .on('click', function (event) {
@@ -84,7 +84,7 @@ $(() => {
           .append($login, $register);
           fadeInLoginForm();//rebinding
         });
-        
+
       });
     }
     const slideUpResMaker = () => {
