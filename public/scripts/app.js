@@ -3,7 +3,8 @@ $(() => {
   search();
   fadeInLoginForm();
   slideUpResMaker();
-
+  logoutAjax();
+  loginAjax();
 
   $('.addButton')
     .on('click', function (event) {
@@ -26,66 +27,71 @@ $(() => {
           getDocs(getComments);
           $('.add-box')
             .slideToggle('slow');
-        })
-    });
-
-  $('#loginFormBody')
-    .on('submit', function (event) {
-      event.preventDefault();
-      $.ajax({
-          method: 'POST',
-          url: '/api/login',
-          data: $(this)
+          })
+        });
+      });
+      
+      const loginAjax = () => {
+        $('#loginFormBody')
+        .on('submit', function (event) {
+          event.preventDefault();
+          $.ajax({
+            method: 'POST',
+            url: '/api/login',
+            data: $(this)
             .serialize()
-        })
-        .done((user) => {
-          const $logout = $('<li>')
+          })
+          .done((user) => {
+            const $logout = $('<li>')
             .attr('id', 'navLogoutButton')
             .text('Logout')
-          const $email = $('<li>')
+            const $email = $('<li>')
             .attr('id', 'useremail')
             .text(user.email)
-          $('.nav')
+            $('.nav')
             .children()
             .remove();
-          $('.nav')
+            $('.nav')
             .append($logout, $email)
-
-          $('.loginButton')
+            $('.loginButton')
             .on('click')
           $('.loginForm')
-            .effect('drop');
+          .fadeOut('slow');
+          logoutAjax();//rebinding
         });
-    });
-  $('#navLogoutButton')
-    .on('click', function (event) {
-      event.preventDefault();
-      $.ajax({
+      });
+    }
+    
+    const logoutAjax = () => {
+      $('#navLogoutButton')
+      .on('click', function (event) {
+        event.preventDefault();
+        $.ajax({
           method: 'DELETE',
           url: '/api/login',
         })
         .done(() => {
           const $login = $('<li>')
-            .attr('id', 'navLoginButton')
-            .text('Login')
+          .attr('id', 'navLoginButton')
+          .text('Login')
           const $register = $('<li>')
-            .attr('id', 'register')
-            .text('register')
+          .attr('id', 'register')
+          .text('register')
           $('.nav')
-            .children()
-            .remove();
+          .children()
+          .remove();
           $('.nav')
-            .append($login, $register)
+          .append($login, $register);
+          fadeInLoginForm();//rebinding
         });
-
-    });
-});
-
-const slideUpResMaker = () => {
-  $('.add-resource')
-    .on('click', function (event) {
-      event.preventDefault();
-      $('.add-box')
+        
+      });
+    }
+    const slideUpResMaker = () => {
+      $('.add-resource')
+      .on('click', function (event) {
+        event.preventDefault();
+        $('.add-box')
         .slideToggle('slow');
     });
 }
