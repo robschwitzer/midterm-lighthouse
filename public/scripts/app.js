@@ -25,7 +25,7 @@ $(() => {
       .done(() => {
         getDocs(getComments);
         $('.add-box')
-        .slideDown();
+        .slideToggle('slow');
       })
     });
 
@@ -55,7 +55,6 @@ const slideUpResMaker = () => {
         .slideToggle('slow');
     });
 }
-
 
 const fadeInLoginForm = () => {
   $("#navLoginButton")
