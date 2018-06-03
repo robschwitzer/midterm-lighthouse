@@ -160,11 +160,23 @@ const $createFooter = () => {
     $comment = $('<img>')
     .attr('src', './images/plus.svg')
     .addClass('viewComment'),
+    $blackheart = $('<img>')
+    .attr('src', './images/blackheart.svg')
+    .addClass('heart')
+    .css('display', 'none')
+    .on('click', function () {
+      $heart.toggle()
+      $blackheart.css('display', 'none')
+    }),
     $heart = $('<img>')
     .attr('src', './images/heart.svg')
     .addClass('heart')
+    .on('click', function () {
+      $blackheart.toggle()
+      $heart.css('display', 'none')
+    })
   return $('<footer>')
-    .append($arrow, $comment, $heart);
+    .append($arrow, $comment, $heart, $blackheart);
 }
 
 const $createCommentBox = () => {
