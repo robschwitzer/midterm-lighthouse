@@ -5,12 +5,7 @@ $(() => {
   slideUpResMaker();
   logoutAjax();
   loginAjax();
-<<<<<<< HEAD
-  searchByUser();
-
-=======
   getMyDocs();
->>>>>>> searchByUser
   $('.addButton')
     .on('click', function (event) {
       event.preventDefault();
@@ -63,10 +58,6 @@ const loginAjax = () => {
           $('.loginForm')
             .fadeOut('slow');
           logoutAjax(); //rebinding
-<<<<<<< HEAD
-          searchByUser(); //rebinding
-=======
->>>>>>> searchByUser
         });
     });
 }
@@ -96,10 +87,6 @@ const logoutAjax = () => {
 
     });
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> searchByUser
 const slideUpResMaker = () => {
   $('.add-resource')
     .on('click', function (event) {
@@ -173,65 +160,17 @@ const getComments = (doc_id, $doc_div, postingComment) => {
     });
 }
 
-const searchByUser = () => {
-  $('#useremail')
-    .click(function () {
-      console.log($(this)
-        .data())
-      $.ajax({
-          method: "GET",
-          url: `/api/users/${$(this).val()}/docs`
-        })
-        .done((docs) => {
-          makeDocs(docs, getComments);
-        });;
-    });
-}
-
 const getDocs = (cb, search) => {
-<<<<<<< HEAD
-  $('.resource')
-    .remove();
-  const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`;
-=======
 
   const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`
->>>>>>> searchByUser
 
   $.ajax({
       method: "GET",
       url: route
     })
     .done((docs) => {
-<<<<<<< HEAD
-      makeDocs(docs, cb);
-=======
       makeDocs(docs, cb)
->>>>>>> searchByUser
     });;
-}
-const makeDocs = (docs, cb) => {
-  docs.forEach((doc) => {
-    const $description = $("<p>")
-      .addClass('desc')
-      .text(doc.description);
-    const $url = $("<a>")
-      .text(doc.url)
-      .attr('href', doc.url),
-      $urlContainer = $('<p>')
-      .append($url);
-    const $resource = $('<div>')
-      .append($createHeader(doc.title), $description, $urlContainer, $createFooter())
-      .addClass('resource');
-    const $commentBox = $createCommentBox();
-    $commentBox.data('url_id', doc.id);
-    $resource
-      .append($commentBox);
-    cb(doc.id, $resource);
-    $resource.insertAfter('.search');
-  });
-  toggleCommentVisibility();
-  PostComment();
 }
 
 const makeDocs = (docs, cb) => {
