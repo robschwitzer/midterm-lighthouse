@@ -61,6 +61,7 @@ const loginAjax = () => {
           logoutAjax(); //rebinding
           searchByUser(); //rebinding
         });
+        getDocs(getComments);
     });
 }
 
@@ -86,7 +87,7 @@ const logoutAjax = () => {
             .append($login, $register);
           fadeInLoginForm(); //rebinding
         });
-
+        getDocs(getComments);
     });
 }
 
