@@ -15,7 +15,7 @@ module.exports = (knex) => {
         description: req.body.description,
         created_at: req.body.created_at,
         creator_id: req.body.creator_id
-      })
+      }).returning('id')
       .then((results) => {
         res.json(results);
       });
