@@ -18,8 +18,6 @@ const loginAjax = () => {
   $('#loginFormBody')
     .on('submit', function (event) {
       event.preventDefault();
-      console.log($(this)
-        .serialize())
       $.ajax({
           method: 'POST',
           url: '/api/login',
@@ -158,7 +156,6 @@ const getCommentUserName = ($user, packet) => {
       url: route
     })
     .done((commenter) => {
-      console.log(commenter)
       if(commenter){
       $user.text(commenter.name)
       }
@@ -215,14 +212,15 @@ const postDoc = () => {
               .data('user-id')
           }
         })
-        .done(() => {
-          tagTopic($('.selectTopic').val(), $('#url').val())
+        .done((url_id) => {
+          tagTopic($('.selectTopic').val(), url_id[0])
           getDocs(getComments);
           $('.add-box')
             .slideToggle('slow');
         })
     });
 }
+
 const tagTopic = (topic_id, doc_id) => {
   $.ajax({
       method: 'POST',
@@ -275,7 +273,6 @@ const makeDocs = (docs, cb) => {
       .attr('href', doc.url),
       $urlContainer = $('<p>')
       .append($url);
-    console.log(doc)
     const $resource = $('<div>')
       .append($createHeader(doc.title, doc.id), $description, $urlContainer, $createFooter(doc))
       .addClass('resource');
@@ -294,9 +291,9 @@ const addTopicText = ($topic, doc_id) => {
       method: 'GET',
       url: `/api/topics/docs/${doc_id}`
     })
-    .done((topic) => {
-      if(topic){
-      $topic.text(topic)
+    .done((results) => {
+      if(results){
+      $topic.text(`---${results.topic}`)
       }
     })
 }
