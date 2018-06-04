@@ -242,7 +242,10 @@ body {
   box-shadow: 0px 1px 50px #020202;
   opacity: .95;
 }
-
+#addResTitleBox {
+  display: inline-flex;
+  width: 91%;
+}
 .add-url {
   margin-left: 40px;
   padding-top: 30px;
@@ -270,7 +273,6 @@ body {
 .selectTopic {
   border-radius: 5px 0 0 5px;
   width: 15%;
-  margin: -468px;
 }
 
 .addButton {
