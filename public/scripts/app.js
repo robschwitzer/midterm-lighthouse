@@ -1,34 +1,17 @@
 $(() => {
-  getDocs(getComments);
-  search();
-  fadeInLoginForm();
-  slideUpResMaker();
+  if ($('#myDocs')
+    .data('user-id')) {
+    getDocs(getComments);
+    search();
+    fadeInLoginForm();
+    slideUpResMaker();
+    getMyDocs();
+    postDoc();
+  } else {
+    fadeInLoginForm(true)
+  }
   logoutAjax();
   loginAjax();
-  getMyDocs();
-  $('.addButton')
-    .on('click', function (event) {
-      event.preventDefault();
-      $.ajax({
-          method: "POST",
-          url: '/api/docs',
-          data: {
-            title: $('#title')
-              .val(),
-            description: $('#desc')
-              .val(),
-            url: $('#url')
-              .val(),
-            created_at: '2018-06-18',
-            creator_id: $('#myDocs').data('user-id')
-          }
-        })
-        .done(() => {
-          getDocs(getComments);
-          $('.add-box')
-            .slideToggle('slow');
-        })
-    });
 });
 
 const loginAjax = () => {
@@ -61,6 +44,7 @@ const loginAjax = () => {
         });
     });
 }
+
 
 const logoutAjax = () => {
   $('#navLogoutButton')
@@ -96,7 +80,11 @@ const slideUpResMaker = () => {
     });
 }
 
-const fadeInLoginForm = () => {
+const fadeInLoginForm = (locked) => {
+  if (locked) {
+    $('.loginForm')
+      .fadeIn();
+  }
   $("#navLoginButton")
     .on('click', function () {
       $('.loginForm')
@@ -175,7 +163,7 @@ const getDocs = (cb, search) => {
 
 const makeDocs = (docs, cb) => {
   $('.resource')
-  .remove();
+    .remove();
   docs.forEach((doc) => {
     const $description = $("<p>")
       .addClass('desc')
@@ -214,6 +202,33 @@ const toggleCommentVisibility = () => {
         .slideToggle();
     });
 }
+
+const postDoc = () => {
+  $('.addButton')
+    .on('click', function (event) {
+      event.preventDefault();
+      $.ajax({
+          method: "POST",
+          url: '/api/docs',
+          data: {
+            title: $('#title')
+              .val(),
+            description: $('#desc')
+              .val(),
+            url: $('#url')
+              .val(),
+            created_at: '2018-06-18',
+            creator_id: $('#myDocs')
+              .data('user-id')
+          }
+        })
+        .done(() => {
+          getDocs(getComments);
+          $('.add-box')
+            .slideToggle('slow');
+        })
+    });
+  }
 
 const PostComment = () => {
   $('.postComment')
