@@ -101,11 +101,10 @@ const search = () => {
       const search = {
         query: $('#search input')
           .val(),
-        topic: $('#search .searchTopic')
-          .val()
+        topic: $(this).children('select').val()
       };
       getDocs(getComments, search);
-
+      console.log($(this).children('selector').val())
     });
 }
 
@@ -163,6 +162,7 @@ const getCommentUserName = ($user, packet) => {
 }
 
 const getDocs = (cb, search) => {
+  console.log(search)
 
   const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`
 
