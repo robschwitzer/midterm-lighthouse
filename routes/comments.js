@@ -11,7 +11,7 @@ module.exports = (knex) => {
       .insert({
         comment: req.body.comment,
         url_id: req.body.url_id,
-        commenter_id: req.session.user.id//fake untill users are set up.
+        commenter_id: req.session.user.id
       })
       .then(function (result) {
         res.json({
