@@ -10,35 +10,34 @@ module.exports = (knex) => {
     knex
       ("likes")
       .count('like')
-      .where("url_id", "=", req.params.url_id)
-      .where('like', '=', 'true')
+      .where("liker_id", "=", req.session.user.id)
+      .where('url_id', '=', req.params.url_id)
       .then(function (result) {
-        res.json({
-          result: result
-        }); // respond back to request
+        res.json(result[0]); // respond back to request
       });
   });
 
-  router.post("/", (req, res) => {
+  router.post("/:url_id", (req, res) => {
     knex
       ("likes")
       .insert({
+        id: undefined,
         like: true,
-        liker_id: req.session.id,
-        url_id: req.body.url_id
+        liker_id: req.session.user.id,
+        url_id: req.params.url_id
       })
       .then(function () {
         res.json({
-          message: 'ok'
+          message: 'all ok'
         }); // respond back to request
       })
   });
 
-  router.delete("/", (req, res) => {
+  router.delete("/:url_id", (req, res) => {
     knex
       ("likes")
-      .where('url_id', '=', req.body.url_id)
-      .where('liker_id', '=', 1)
+      .where('liker_id', '=', req.session.user.id)
+      .where('url_id', '=', req.params.url_id)
       .del()
 
       .then(function () {
