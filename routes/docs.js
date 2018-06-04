@@ -45,8 +45,11 @@ module.exports = (knex) => {
 
   router.get("/", (req, res) => {
     knex
-      .select("*")
-      .from("urls")
+      .select("urls.id", "urls.title", "urls.url", "urls.description", "urls.created_at", "urls.creator_id", knex.raw("count(ranks.url_id)"))
+      .from("ranks")
+      .rightJoin("urls", "urls.id", "ranks.url_id")
+      .groupBy("urls.id")
+      .orderBy(knex.raw("count(ranks.url_id)"))
       .then((results) => {
         res.json(results);
       });

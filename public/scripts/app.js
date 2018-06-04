@@ -286,18 +286,57 @@ const $createHeader = (title) => {
 }
 
 const $createFooter = (doc) => {
-  const $arrow = $('<img>')
-    .attr('src', './images/arrow-up.svg')
-    .addClass('arrow'),
     $comment = $('<img>')
     .attr('src', './images/plus.svg')
     .addClass('viewComment'),
+    $arrow = rank(doc);
+    $unrank = unrank(doc);
     $heart = heart(doc);
-  $blackheart = blackheart(doc);
-  isLiked(doc, $blackheart, $heart);
+    $blackheart = blackheart(doc);
+    isLiked(doc, $blackheart, $heart);
+    isRanked(doc, $arrow);
   return $('<footer>')
-    .append($arrow, $comment, $heart, $blackheart);
+    .append($arrow, $unrank, $comment, $heart, $blackheart);
 }
+
+const rank = (doc) => {
+  return $arrow = $('<img>')
+    .data('rank', 'unRanked')
+    .attr('src', './images/arrow-up.svg')
+    .addClass('arrow')
+    .css('opacity', '.5')
+    .on('click', function () {
+      if($(this).css("opacity") == 0.5) {
+      $.ajax ({
+        method: 'POST',
+        url: `/api/ranks/${doc.id}`
+      })
+      .done(() => {
+        $(this).css('opacity', '1').data("rank", "ranked");
+      getDocs(getComments)
+      })
+    }
+    })
+  }
+
+const unrank = (doc) => {
+  return $arrow
+    .on('click', function () {
+      if($(this).css("opacity") == 1) {
+      $.ajax ({
+        method: 'DELETE',
+        url: `/api/ranks/${doc.id}`
+      })
+      .done(() => {
+        $(this).css('opacity', '0.5').data("rank", "unRanked");
+      getDocs(getComments);
+      })
+    }
+
+    })
+
+}
+
 const blackheart = (doc) => {
   return $blackheart = $('<img>')
     .attr('src', './images/blackheart.svg')
@@ -341,11 +380,10 @@ const heart = (doc) => {
 }
 
 const isLiked = (doc, $heart, $blackheart) => {
-  let like = false;
-  $.ajax({
-      method: 'GET',
-      url: `/api/likes/${doc.id}`
-    })
+  $.ajax ({
+    method: 'GET',
+    url: `/api/likes/${doc.id}`
+  })
     .done((results) => {
       if (results.count === '0') {
         console.log(results.count)
@@ -357,6 +395,22 @@ const isLiked = (doc, $heart, $blackheart) => {
       }
     });
 }
+
+const isRanked = (doc, $arrow) => {
+  $.ajax ({
+    method: 'GET',
+    url: `/api/ranks/${doc.id}`
+  })
+    .done((results) => {
+    if(results.count === '0') {
+    console.log(results.count)
+    $arrow.css('opacity', '.5');
+  } else {
+    $arrow.css('opacity', '1');
+  }
+  });
+}
+
 
 const $createCommentBox = () => {
   const $textArea = $('<textarea>')
