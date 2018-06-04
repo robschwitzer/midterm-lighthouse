@@ -9,52 +9,41 @@ module.exports = (knex) => {
     knex
       ("ranks")
       .count('rank')
-      .where("url_id", "=", req.params.url_id)
-      .where('rank', '=', 'true')
+      .where("ranker_id", "=", req.session.user.id)
+      .where('url_id', '=', req.params.url_id)
       .then(function (result) {
-        res.json({
-          result: result
-        }); // respond back to request
+        res.json(result[0]); // respond back to request
       });
   });
 
-  router.post("/", (req, res) => {
+  router.post("/:url_id", (req, res) => {
     knex
       ("ranks")
       .insert({
-        rank: req.body.rank,
-        ranker_id: req.body.ranker_id,
-        url_id: req.body.url_id
+        id: undefined,
+        rank: true,
+        ranker_id: req.session.user.id,
+        url_id: req.params.url_id
       })
       .then(function () {
         res.json({
-          message: 'successfully ranked'
+          message: 'all ok'
         }); // respond back to request
       })
-      .catch({
-        err: 'like authentication failed'
-      });
-
   });
 
-  router.put("/", (req, res) => {
+  router.delete("/:url_id", (req, res) => {
     knex
       ("ranks")
-      .update({
-        rank: req.body.rank,
-      })
-      .where('url_id', '=', req.body.url_id)
-      .where('ranker_id', '=', req.body.ranker_id)
+      .where('ranker_id', '=', req.session.user.id)
+      .where('url_id', '=', req.params.url_id)
+      .del()
+
       .then(function () {
         res.json({
           message: 'successfully adjusted rank'
         }); // respond back to request
-      })
-      .catch({
-        err: 'like authentication failed'
       });
-
   });
-
   return router;
 }
