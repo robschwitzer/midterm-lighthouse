@@ -16,9 +16,12 @@ module.exports = (knex) => {
 
   router.get("/:id/docs", (req, res) => {
     knex
-      .select("*")
+      .distinct()
+      .select("url", "description", "title", "urls.id", "creator_id")
       .from("urls")
+      .join('likes', 'urls.id', 'url_id')
       .where('creator_id', '=', req.params.id)
+      .orWhere('liker_id', '=', req.params.id)
       .then((results) => {
         res.json(results);
     });

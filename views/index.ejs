@@ -37,7 +37,9 @@
       <img src="../images/jenkins.svg" alt="">
       <ul class='nav'>
         <% if(user_id !== undefined){ %>
+          
           <li id="useremail"> <%= user_id.email %> </li>
+          <li  data-user-id="<%= user_id.id %>" id="myDocs">My Docs</li>
           <li id="navLogoutButton">logout</li>
          <% } else { %>
         <li id="navLoginButton">Login </li>

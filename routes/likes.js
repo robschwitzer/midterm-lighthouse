@@ -34,11 +34,11 @@ module.exports = (knex) => {
       })
   });
 
-  router.put("/", (req, res) => {
+  router.delete("/", (req, res) => {
     knex
       ("likes")
-      .where('url_id', '=', req.session.url_id)
-      .where('liker_id', '=', req.session.id)
+      .where('url_id', '=', req.body.url_id)
+      .where('liker_id', '=', 1)
       .del()
 
       .then(function () {
