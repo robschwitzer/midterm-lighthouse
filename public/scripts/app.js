@@ -189,7 +189,7 @@ const makeDocs = (docs, cb) => {
       $urlContainer = $('<p>')
       .append($url);
     const $resource = $('<div>')
-      .append($createHeader(doc.title), $description, $urlContainer, $createFooter())
+      .append($createHeader(doc.title), $description, $urlContainer, $createFooter(doc))
       .addClass('resource');
     const $commentBox = $createCommentBox();
     $commentBox.data('url_id', doc.id);
@@ -249,6 +249,8 @@ const PostComment = () => {
     });
 }
 
+
+
 const $createHeader = (title) => {
   const $title = $("<h1>")
     .text(title),
@@ -258,30 +260,69 @@ const $createHeader = (title) => {
     .append($title, $topic);
 }
 
-const $createFooter = () => {
+const $createFooter = (doc) => {
   const $arrow = $('<img>')
     .attr('src', './images/arrow-up.svg')
     .addClass('arrow'),
     $comment = $('<img>')
     .attr('src', './images/plus.svg')
     .addClass('viewComment'),
-    $blackheart = $('<img>')
-    .attr('src', './images/blackheart.svg')
-    .addClass('heart')
-    .css('display', 'none')
-    .on('click', function () {
-      $heart.toggle()
-      $blackheart.css('display', 'none')
-    }),
-    $heart = $('<img>')
-    .attr('src', './images/heart.svg')
-    .addClass('heart')
-    .on('click', function () {
-      $blackheart.toggle()
-      $heart.css('display', 'none')
-    })
+    $heart = heart(doc);
+    $blackheart = blackheart(doc);
+    isLiked(doc, $blackheart, $heart);
   return $('<footer>')
     .append($arrow, $comment, $heart, $blackheart);
+}
+const blackheart = (doc) => {
+  return $blackheart = $('<img>')
+    .attr('src', './images/blackheart.svg')
+    .addClass('blackheart')
+    .css('display', 'none')
+    .on('click', function () {
+      $.ajax ({
+        method: 'DELETE',
+        url: `/api/likes/${doc.id}`
+      })
+      .done()
+        $(this).hide();
+        $(this).parent('footer').children('.heart').show();
+    })
+}
+
+const heart = (doc) => {
+  return $heart = $('<img>')
+    .attr('src', './images/heart.svg')
+    .addClass('heart')
+    .css('display', 'block')
+    .on('click', function () {
+      $.ajax ({
+        method: 'POST',
+        url: `/api/likes/${doc.id}`
+      })
+      .done(() => {
+        $(this).hide();
+        $(this).parent('footer').children('.blackheart').show();
+      })
+
+    })
+}
+
+const isLiked = (doc, $heart, $blackheart) => {
+  let like = false;
+  $.ajax ({
+    method: 'GET',
+    url: `/api/likes/${doc.id}`
+  })
+    .done((results) => {
+    if(results.count === '0') {
+    console.log(results.count)
+    $blackheart.css('display', 'block');
+    $heart.css('display', 'none');
+  } else {
+    $blackheart.css('display', 'none');
+    $heart.css('display', 'block');
+  }
+  });
 }
 
 const $createCommentBox = () => {
