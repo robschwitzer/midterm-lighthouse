@@ -1,12 +1,12 @@
 $(() => {
-  if ($('#myDocs')
-    .data('user-id')) {
-    fadeInLoginForm();
-    slideUpResMaker();
-    postDoc();
-  } else {
-    fadeInLoginForm(true)
-  }
+  if (!$('#myDocs')
+  .data('user-id')) {
+  fadeInLoginForm(true)
+}
+
+  fadeInLoginForm();
+  slideUpResMaker();
+  postDoc();
   getMyDocs();
   logoutAjax();
   getDocs(getComments);
@@ -18,6 +18,7 @@ const loginAjax = () => {
   $('#loginFormBody')
     .on('submit', function (event) {
       event.preventDefault();
+      console.log($(this).serialize())
       $.ajax({
           method: 'POST',
           url: '/api/login',

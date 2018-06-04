@@ -5,7 +5,7 @@ const router = express.Router();
 
 module.exports = (knex) => {
   router.post("/", (req, res) => {
-    console.log(req.body)
+    console.log('this is what im looking for', req.body.email)
     knex
       .select('*')
       .from("users")
