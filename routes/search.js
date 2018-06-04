@@ -17,7 +17,7 @@ module.exports = (knex) => {
         .from("urls")
         .join('tagged_topics', 'urls.id', `url_id`)
         .join('topics', 'topics.id', 'topic_id')
-        .where('topics.topic','=', `${topic}`)
+        .where('topics.id','=', `${Number(topic)}`)
         .andWhere(function() {
           this.where('description', 'like', `%${query}%`)
               .orWhere('title', 'like', `%${query}%`)
