@@ -1,8 +1,8 @@
 $(() => {
   if (!$('#myDocs')
-  .data('user-id')) {
-  fadeInLoginForm(true)
-}
+    .data('user-id')) {
+    fadeInLoginForm(true)
+  }
 
   fadeInLoginForm();
   slideUpResMaker();
@@ -18,7 +18,8 @@ const loginAjax = () => {
   $('#loginFormBody')
     .on('submit', function (event) {
       event.preventDefault();
-      console.log($(this).serialize())
+      console.log($(this)
+        .serialize())
       $.ajax({
           method: 'POST',
           url: '/api/login',
@@ -156,8 +157,11 @@ const getCommentUserName = ($user, packet) => {
       method: "GET",
       url: route
     })
-    .done((name) => {
-      $user.text(name)
+    .done((commenter) => {
+      console.log(commenter)
+      if(commenter){
+      $user.text(commenter.name)
+      }
     });;
 }
 
@@ -174,31 +178,7 @@ const getDocs = (cb, search) => {
     });;
 }
 
-const makeDocs = (docs, cb) => {
-  $('.resource')
-    .remove();
-  docs.forEach((doc) => {
-    const $description = $("<p>")
-      .addClass('desc')
-      .text(doc.description);
-    const $url = $("<a>")
-      .text(doc.url)
-      .attr('href', doc.url),
-      $urlContainer = $('<p>')
-      .append($url);
-    const $resource = $('<div>')
-      .append($createHeader(doc.title), $description, $urlContainer, $createFooter(doc))
-      .addClass('resource');
-    const $commentBox = $createCommentBox();
-    $commentBox.data('url_id', doc.id);
-    $resource
-      .append($commentBox);
-    cb(doc.id, $resource);
-    $resource.insertAfter('.search');
-  });
-  toggleCommentVisibility();
-  PostComment();
-}
+
 
 const toggleCommentVisibility = () => {
   $('.viewComment')
@@ -236,17 +216,26 @@ const postDoc = () => {
           }
         })
         .done(() => {
+          tagTopic($('.selectTopic').val(), $('#url').val())
           getDocs(getComments);
           $('.add-box')
             .slideToggle('slow');
         })
     });
 }
+const tagTopic = (topic_id, doc_id) => {
+  $.ajax({
+      method: 'POST',
+      url: `/api/topics/${topic_id}/docs/${doc_id}`
+    })
+    .done((results) => {
 
+    })
+}
 const PostComment = () => {
   $('.postComment')
     .on('submit', function (event) {
-      event.preventDefault()
+      event.preventDefault();
       $.ajax({
           method: "POST",
           url: '/api/comments',
@@ -274,27 +263,62 @@ const PostComment = () => {
     });
 }
 
-
-
-const $createHeader = (title) => {
+const makeDocs = (docs, cb) => {
+  $('.resource')
+    .remove();
+  docs.forEach((doc) => {
+    const $description = $("<p>")
+      .addClass('desc')
+      .text(doc.description);
+    const $url = $("<a>")
+      .text(doc.url)
+      .attr('href', doc.url),
+      $urlContainer = $('<p>')
+      .append($url);
+    console.log(doc)
+    const $resource = $('<div>')
+      .append($createHeader(doc.title, doc.id), $description, $urlContainer, $createFooter(doc))
+      .addClass('resource');
+    const $commentBox = $createCommentBox();
+    $commentBox.data('url_id', doc.id);
+    $resource
+      .append($commentBox);
+    cb(doc.id, $resource);
+    $resource.insertAfter('.search');
+  });
+  toggleCommentVisibility();
+  PostComment();
+}
+const addTopicText = ($topic, doc_id) => {
+  $.ajax({
+      method: 'GET',
+      url: `/api/topics/docs/${doc_id}`
+    })
+    .done((topic) => {
+      if(topic){
+      $topic.text(topic)
+      }
+    })
+}
+const $createHeader = (title, doc_id) => {
   const $title = $("<h1>")
     .text(title),
-    $topic = $("<h3>")
-    .text()
+    $topic = $("<h3>");
+  addTopicText($topic, doc_id)
   return $("<header>")
     .append($title, $topic);
 }
 
 const $createFooter = (doc) => {
-    $comment = $('<img>')
+  $comment = $('<img>')
     .attr('src', './images/plus.svg')
     .addClass('viewComment'),
     $arrow = rank(doc);
-    $unrank = unrank(doc);
-    $heart = heart(doc);
-    $blackheart = blackheart(doc);
-    isLiked(doc, $blackheart, $heart);
-    isRanked(doc, $arrow);
+  $unrank = unrank(doc);
+  $heart = heart(doc);
+  $blackheart = blackheart(doc);
+  isLiked(doc, $blackheart, $heart);
+  isRanked(doc, $arrow);
   return $('<footer>')
     .append($arrow, $unrank, $comment, $heart, $blackheart);
 }
@@ -306,32 +330,38 @@ const rank = (doc) => {
     .addClass('arrow')
     .css('opacity', '.5')
     .on('click', function () {
-      if($(this).css("opacity") == 0.5) {
-      $.ajax ({
-        method: 'POST',
-        url: `/api/ranks/${doc.id}`
-      })
-      .done(() => {
-        $(this).css('opacity', '1').data("rank", "ranked");
-      getDocs(getComments)
-      })
-    }
+      if ($(this)
+        .css("opacity") == 0.5) {
+        $.ajax({
+            method: 'POST',
+            url: `/api/ranks/${doc.id}`
+          })
+          .done(() => {
+            $(this)
+              .css('opacity', '1')
+              .data("rank", "ranked");
+            getDocs(getComments)
+          })
+      }
     })
-  }
+}
 
 const unrank = (doc) => {
   return $arrow
     .on('click', function () {
-      if($(this).css("opacity") == 1) {
-      $.ajax ({
-        method: 'DELETE',
-        url: `/api/ranks/${doc.id}`
-      })
-      .done(() => {
-        $(this).css('opacity', '0.5').data("rank", "unRanked");
-      getDocs(getComments);
-      })
-    }
+      if ($(this)
+        .css("opacity") == 1) {
+        $.ajax({
+            method: 'DELETE',
+            url: `/api/ranks/${doc.id}`
+          })
+          .done(() => {
+            $(this)
+              .css('opacity', '0.5')
+              .data("rank", "unRanked");
+            getDocs(getComments);
+          })
+      }
 
     })
 
@@ -380,10 +410,10 @@ const heart = (doc) => {
 }
 
 const isLiked = (doc, $heart, $blackheart) => {
-  $.ajax ({
-    method: 'GET',
-    url: `/api/likes/${doc.id}`
-  })
+  $.ajax({
+      method: 'GET',
+      url: `/api/likes/${doc.id}`
+    })
     .done((results) => {
       if (results.count === '0') {
         console.log(results.count)
@@ -397,18 +427,18 @@ const isLiked = (doc, $heart, $blackheart) => {
 }
 
 const isRanked = (doc, $arrow) => {
-  $.ajax ({
-    method: 'GET',
-    url: `/api/ranks/${doc.id}`
-  })
+  $.ajax({
+      method: 'GET',
+      url: `/api/ranks/${doc.id}`
+    })
     .done((results) => {
-    if(results.count === '0') {
-    console.log(results.count)
-    $arrow.css('opacity', '.5');
-  } else {
-    $arrow.css('opacity', '1');
-  }
-  });
+      if (results.count === '0') {
+        console.log(results.count)
+        $arrow.css('opacity', '.5');
+      } else {
+        $arrow.css('opacity', '1');
+      }
+    });
 }
 
 

@@ -28,16 +28,9 @@ module.exports = (knex) => {
         url: req.body.url,
         title: req.body.title,
         description: req.body.description,
+        creator_id: req.session.user.id
       })
       .where('id', '=', req.params.id)
-      .then(() => {
-        knex
-          ('tagged_topics')
-          .insert({
-            topic_id: req.body.topic_id
-          })
-          .where('urls.id', '=', 'tagged_topics.topic_id')
-      })
       .then((results) => {
         res.send(200);
       })

@@ -12,7 +12,7 @@ module.exports = (knex) => {
       .from("users")
       .where("users.id", "=", req.params.commenter_id)
       .then((results) => {
-        res.json(results[0].name);
+        res.json(results[0]);
       });
   });
 
@@ -22,8 +22,8 @@ module.exports = (knex) => {
       .select("url", "description", "title", "urls.id", "creator_id")
       .from("urls")
       .join('likes', 'urls.id', 'url_id')
-      .where('creator_id', '=', req.params.id)
-      .orWhere('liker_id', '=', req.params.id)
+      .where('creator_id', '=', req.session.user.id)
+      .orWhere('liker_id', '=', req.session.user.id)
       .then((results) => {
         res.json(results);
       });

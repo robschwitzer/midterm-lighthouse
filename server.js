@@ -18,6 +18,7 @@ const knexLogger  = require('knex-logger');
 const usersRoutes    = require("./routes/users");
 const urlsRoutes     = require("./routes/docs");
 const searchRoutes   = require("./routes/search");
+const topicsRoutes   = require("./routes/topics");
 const commentsRoutes = require("./routes/comments");
 const likesRoutes    = require("./routes/likes");
 const ranksRoutes    = require("./routes/ranks");
@@ -55,6 +56,7 @@ app.use(express.static("public"));
 app.use("/api/docs", urlsRoutes(knex));
 app.use("/api/users", usersRoutes(knex));
 app.use("/api/docs/search", searchRoutes(knex));
+app.use("/api/topics", topicsRoutes(knex));
 app.use("/api/comments", commentsRoutes(knex));//should be urls/id/comments
 app.use("/api/likes", likesRoutes(knex));
 app.use("/api/ranks", ranksRoutes(knex));
