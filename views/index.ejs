@@ -34,14 +34,13 @@
       <img src="../images/bomb.svg" alt="">
       <ul class='nav'>
         <% if(user_id !== undefined){ %>
-          <li data-user-id="<%= user_id.id %>" id="useremail">
-            <%= user_id.email %>
-          </li>
+          <li id="useremail"> <%= user_id.email %> </li>
+          <li  data-user-id="<%= user_id.id %>" id="myDocs">My Docs</li>
           <li id="navLogoutButton">logout</li>
-            <% } else { %>
-              <li id="navLoginButton">Login </li>
-              <li>Register</li>
-              <% } %>
+         <% } else { %>
+        <li id="navLoginButton">Login </li>
+        <li>Register</li>
+      <% } %>
       </ul>
     </div>
 
@@ -70,15 +69,19 @@
     <form class='add-url'>
       <div class='add-title-caption'>Title</div>
 
-
-      <input type="text" name='title' class="add-url-field" id='title' placeholder="">
-      <select class='selectTopic' placeholder='category'>
-          <option value="alldocs">topic...</option>
-          <option value="html">html/css</option>
-          <option value="ruby">Ruby</option>
-          <option value="ajax">ajax</option>
-        </select>
-
+      <div id="addResTitleBox">
+        <select class='selectTopic' placeholder='category'>
+            <option value="alldocs">topic...</option>
+            <option value="html">html/css</option>
+            <option value="ruby">Ruby</option>
+            <option value="ajax">ajax</option>
+            <option value="java">java</option>
+            <option value="sql">html/css</option>
+            <option value="python">Ruby</option>
+            <option value="ajax">c#</option>
+          </select>
+        <input type="text" name='title' class="add-url-field" id='title' placeholder="">
+      </div>
       <div class='add-desc-caption'>Description</div>
 
           <input type="text" name='description' class="add-url-field" id='desc' placeholder='add a description'>

@@ -8,6 +8,9 @@ body {
   min-height: 100%;
   border-radius: 5px;
   position: relative;
+  opacity: 0.9;
+  background: antiquewhite;
+
 }
 
 .main {
@@ -21,9 +24,11 @@ body {
 .container {
   min-height: 100%;
   width: 60%;
-  background: grey;
+  background: #0084b1;
+  opacity: 0.9;
   margin: auto;
   padding: 10px;
+  box-shadow: 0px 18px 75px #020202;
 }
 
 .toggleHidden {
@@ -33,21 +38,29 @@ body {
 .header {
   width: 100%;
   height: 100px;
+  box-shadow: 0px 0px 50px 1px;
   margin-top: 0;
   border: 0;
   padding: 0;
   box-sizing: border-box;
   padding-bottom: 1rem;
   border-bottom: .05rem solid #e5e5e5;
-  background-color: #f5f5f5;
+  background-color: floralwhite;
   border-bottom: 1px solid #e5e5e5;
   top: 0;
   right: 0;
   left: 0;
 }
-.arrow {margin:0;}
+
+.arrow {
+  margin: 0;
+}
+
 .header ul {
+  font-size: 19px;
   float: right;
+  margin-top: 60px;
+  margin-right: 50px;
 }
 
 .header li {
@@ -102,8 +115,8 @@ body {
 
 .header img {
   margin-left: 80px;
-  margin-top: 10px;
-  height: 90px;
+  margin-top: 12px;
+  height: 75px;
 }
 
 .search {
@@ -125,11 +138,11 @@ body {
   margin: auto;
   padding: 5px;
   outline: none;
-  color: #9DBFAF;
+  /*color: #9DBFAF;*/
 }
 
 .searchTerm:focus {
-  color: #00B4CC;
+  color: lightgrey;
 }
 
 .searchTopic {
@@ -204,8 +217,8 @@ body {
   width: 33%;
   margin: auto;
   margin-left: 33%;
-  background-color: #f5f5f5;
-  /*height: 90px;*/
+  background-color: #ffb21f;
+  box-shadow: 0px 0px 20px 0px black;
 }
 
 .black {
@@ -228,13 +241,14 @@ body {
   text-align: center;
   border-radius: 3px;
   width: 66%;
+  /*text-shadow: 0px 4px 30px #020218;*/
 }
 
 .add-box {
   display: none;
   margin-left: -15%;
   width: 130%;
-  background: #4096ad;
+  background: #afafaf;
   height: 300px;
   top: 0;
   bottom: 0;
@@ -249,7 +263,6 @@ body {
 }
 
 .add-url-caption {
-
   font-size: 35px;
 }
 
@@ -258,7 +271,6 @@ body {
 }
 
 .add-title-caption {
-
   font-size: 35px;
 }
 

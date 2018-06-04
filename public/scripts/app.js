@@ -1,41 +1,24 @@
 $(() => {
-  getDocs(getComments);
-  search();
+  if (!$('#myDocs')
+  .data('user-id')) {
+  fadeInLoginForm(true)
+}
+
   fadeInLoginForm();
   slideUpResMaker();
+  postDoc();
+  getMyDocs();
   logoutAjax();
+  getDocs(getComments);
+  search();
   loginAjax();
-  searchByUser();
-
-  $('.addButton')
-    .on('click', function (event) {
-      event.preventDefault();
-      $.ajax({
-          method: "POST",
-          url: '/api/docs',
-          data: {
-            title: $('#title')
-              .val(),
-            description: $('#desc')
-              .val(),
-            url: $('#url')
-              .val(),
-            created_at: '2018-06-18',
-            creator_id: 2
-          }
-        })
-        .done(() => {
-          getDocs(getComments);
-          $('.add-box')
-            .slideToggle('slow');
-        })
-    });
 });
 
 const loginAjax = () => {
   $('#loginFormBody')
     .on('submit', function (event) {
       event.preventDefault();
+      console.log($(this).serialize())
       $.ajax({
           method: 'POST',
           url: '/api/login',
@@ -59,11 +42,11 @@ const loginAjax = () => {
           $('.loginForm')
             .fadeOut('slow');
           logoutAjax(); //rebinding
-          searchByUser(); //rebinding
         });
-        getDocs(getComments);
+      getDocs(getComments);
     });
 }
+
 
 const logoutAjax = () => {
   $('#navLogoutButton')
@@ -87,7 +70,7 @@ const logoutAjax = () => {
             .append($login, $register);
           fadeInLoginForm(); //rebinding
         });
-        getDocs(getComments);
+      getDocs(getComments);
     });
 }
 
@@ -100,7 +83,11 @@ const slideUpResMaker = () => {
     });
 }
 
-const fadeInLoginForm = () => {
+const fadeInLoginForm = (locked) => {
+  if (locked) {
+    $('.loginForm')
+      .fadeIn();
+  }
   $("#navLoginButton")
     .on('click', function () {
       $('.loginForm')
@@ -123,6 +110,19 @@ const search = () => {
     });
 }
 
+const getMyDocs = () => {
+  $('#myDocs')
+    .click(function () {
+      $.ajax({
+          method: "GET",
+          url: `/api/users/${$(this).data('user-id')}/docs`
+        })
+        .done((docs) => {
+          makeDocs(docs, getComments)
+        });;
+    });
+}
+
 const getComments = (doc_id, $doc_div, postingComment) => {
   $.ajax({
       method: "GET",
@@ -135,7 +135,7 @@ const getComments = (doc_id, $doc_div, postingComment) => {
       comments.forEach((packet) => {
         if (doc_id === packet.url_id) {
           const $user = $('<h2>')
-            .text('that guy'); // place holer until users are implemented
+          getCommentUserName($user, packet);
           const $description = $('<p>')
             .text(packet.comment);
           $("<div>")
@@ -146,40 +146,37 @@ const getComments = (doc_id, $doc_div, postingComment) => {
         }
       });
       $commentContainer.insertBefore($doc_div.children('.postComment'));
-
-
     });
 }
 
-const searchByUser = () => {
-  $('#useremail')
-    .click(function () {
-      console.log($(this)
-        .data())
-      $.ajax({
-          method: "GET",
-          url: `/api/users/${$(this).val()}/docs`
-        })
-        .done((docs) => {
-          makeDocs(docs, getComments);
-        });;
-    });
+const getCommentUserName = ($user, packet) => {
+
+  const route = `/api/users/doc/${packet.url_id}/comment/${packet.commenter_id}`
+  $.ajax({
+      method: "GET",
+      url: route
+    })
+    .done((name) => {
+      $user.text(name)
+    });;
 }
 
 const getDocs = (cb, search) => {
-  $('.resource')
-    .remove();
-  const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`;
+
+  const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`
 
   $.ajax({
       method: "GET",
       url: route
     })
     .done((docs) => {
-      makeDocs(docs, cb);
+      makeDocs(docs, cb)
     });;
 }
+
 const makeDocs = (docs, cb) => {
+  $('.resource')
+    .remove();
   docs.forEach((doc) => {
     const $description = $("<p>")
       .addClass('desc')
@@ -216,6 +213,33 @@ const toggleCommentVisibility = () => {
         .parents('.resource')
         .children('.toggleHidden')
         .slideToggle();
+    });
+}
+
+const postDoc = () => {
+  $('.addButton')
+    .on('click', function (event) {
+      event.preventDefault();
+      $.ajax({
+          method: "POST",
+          url: '/api/docs',
+          data: {
+            title: $('#title')
+              .val(),
+            description: $('#desc')
+              .val(),
+            url: $('#url')
+              .val(),
+            created_at: '2018-06-18',
+            creator_id: $('#myDocs')
+              .data('user-id')
+          }
+        })
+        .done(() => {
+          getDocs(getComments);
+          $('.add-box')
+            .slideToggle('slow');
+        })
     });
 }
 
@@ -319,13 +343,17 @@ const blackheart = (doc) => {
     .addClass('blackheart')
     .css('display', 'none')
     .on('click', function () {
-      $.ajax ({
-        method: 'DELETE',
-        url: `/api/likes/${doc.id}`
-      })
-      .done()
-        $(this).hide();
-        $(this).parent('footer').children('.heart').show();
+      $.ajax({
+          method: 'DELETE',
+          url: `/api/likes/${doc.id}`
+        })
+        .done()
+      $(this)
+        .hide();
+      $(this)
+        .parent('footer')
+        .children('.heart')
+        .show();
     })
 }
 
@@ -335,14 +363,18 @@ const heart = (doc) => {
     .addClass('heart')
     .css('display', 'block')
     .on('click', function () {
-      $.ajax ({
-        method: 'POST',
-        url: `/api/likes/${doc.id}`
-      })
-      .done(() => {
-        $(this).hide();
-        $(this).parent('footer').children('.blackheart').show();
-      })
+      $.ajax({
+          method: 'POST',
+          url: `/api/likes/${doc.id}`
+        })
+        .done(() => {
+          $(this)
+            .hide();
+          $(this)
+            .parent('footer')
+            .children('.blackheart')
+            .show();
+        })
 
     })
 }
@@ -353,15 +385,15 @@ const isLiked = (doc, $heart, $blackheart) => {
     url: `/api/likes/${doc.id}`
   })
     .done((results) => {
-    if(results.count === '0') {
-    console.log(results.count)
-    $blackheart.css('display', 'block');
-    $heart.css('display', 'none');
-  } else {
-    $blackheart.css('display', 'none');
-    $heart.css('display', 'block');
-  }
-  });
+      if (results.count === '0') {
+        console.log(results.count)
+        $blackheart.css('display', 'block');
+        $heart.css('display', 'none');
+      } else {
+        $blackheart.css('display', 'none');
+        $heart.css('display', 'block');
+      }
+    });
 }
 
 const isRanked = (doc, $arrow) => {
