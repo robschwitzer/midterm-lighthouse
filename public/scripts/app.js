@@ -282,13 +282,14 @@ const rank = (doc) => {
     .addClass('arrow')
     .css('opacity', '.5')
     .on('click', function () {
-      if($(this).data("rank") === "unRanked") {
+      if($(this).css("opacity") == 0.5) {
       $.ajax ({
         method: 'POST',
         url: `/api/ranks/${doc.id}`
       })
       .done(() => {
         $(this).css('opacity', '1').data("rank", "ranked");
+      getDocs(getComments)
       })
     }
     })
@@ -297,16 +298,19 @@ const rank = (doc) => {
 const unrank = (doc) => {
   return $arrow
     .on('click', function () {
-      if($(this).data("rank") === "ranked") {
+      if($(this).css("opacity") == 1) {
       $.ajax ({
         method: 'DELETE',
         url: `/api/ranks/${doc.id}`
       })
       .done(() => {
         $(this).css('opacity', '0.5').data("rank", "unRanked");
+      getDocs(getComments);
       })
     }
+
     })
+
 }
 
 const blackheart = (doc) => {
