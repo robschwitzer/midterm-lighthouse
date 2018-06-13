@@ -25,11 +25,11 @@
 - ejs: 2.4.1 or above
 - express: 4.13.4 or above
 - knex: 0.11.10 or above
-- knex-logger: 0.1.0 or above
-- morgan: 1.7.0 or above
 - node-sass-middleware: 0.9.8 or above
 - pg: 6.0.2 or above
 
 ## Dev Dependencies
 
+- knex-logger: 0.1.0 or above
+- morgan: 1.7.0 or above
 - nodemon: 1.9.2 or above
