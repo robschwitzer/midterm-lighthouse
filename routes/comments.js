@@ -19,7 +19,6 @@ module.exports = (knex) => {
           message: req.body.comment
         }); // respond back to request
       })
-      console.log(req.data);
   });
 
   router.get("/", (req, res) => {

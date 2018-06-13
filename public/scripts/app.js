@@ -104,7 +104,6 @@ const search = () => {
         topic: $(this).children('select').val()
       };
       getDocs(getComments, search);
-      console.log($(this).children('selector').val())
     });
 }
 
@@ -162,7 +161,6 @@ const getCommentUserName = ($user, packet) => {
 }
 
 const getDocs = (cb, search) => {
-  console.log(search)
 
   const route = search !== undefined ? `/api/docs/search/${search.topic}-:${search.query}` : `/api/docs`
 
@@ -413,7 +411,6 @@ const isLiked = (doc, $heart, $blackheart) => {
     })
     .done((results) => {
       if (results.count === '0') {
-        console.log(results.count)
         $blackheart.css('display', 'block');
         $heart.css('display', 'none');
       } else {
@@ -430,7 +427,6 @@ const isRanked = (doc, $arrow) => {
     })
     .done((results) => {
       if (results.count === '0') {
-        console.log(results.count)
         $arrow.css('opacity', '.5');
       } else {
         $arrow.css('opacity', '1');

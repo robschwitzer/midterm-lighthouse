@@ -5,7 +5,6 @@ const router = express.Router();
 
 module.exports = (knex) => {
   router.post("/", (req, res) => {
-    console.log('this is what im looking for', req.body.email)
     knex
       .select('*')
       .from("users")
@@ -18,14 +17,12 @@ module.exports = (knex) => {
           email: results[0].email,
           password: results[0].password
         }
-        console.log('req.session', req.session)
         res.json(results[0]);
       });
   });
 
   router.delete("/", (req, res) => {
     req.session = null;
-    console.log(req.session)
     res.json('')
   });
 
