@@ -38,7 +38,3 @@ module.exports = (knex) => {
   });
   return router;
 }
-/*
-select * from urls
-join tagged_topics on tagged_topics.url_id = urls.id join topics on topic_id = topics.id where topics.topic = '${var}';
-*/
